@@ -1,0 +1,16 @@
+{
+    "name": "theme",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "scss": "node-sass --watch --output-style compressed scss -o css"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "bootstrap": "^5.1.3",
+        "node-sass": "^7.0.1"
+    }
+}
