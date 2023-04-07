@@ -1,7 +1,6 @@
 <?php
  function datethai($date){
     $da=explode("-",$date);
-
     $d=$da[2];
     $m=$da[1];
     $y=$da[0];

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <title>Basic Form Elements | Bootstrap Based Admin Template - Material Design</title>
+    <title>Badminton</title>
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <?php require $_SERVER['DOCUMENT_ROOT'] . "/badminton/components/link.php"; ?>
     <style>
@@ -20,8 +20,10 @@
 <body class="font-sriracha">
     <?php require $_SERVER['DOCUMENT_ROOT'] . "/badminton/components/nav.php"; ?>
     <?php require $_SERVER['DOCUMENT_ROOT'] . "/badminton/components/botton.php"; ?>
-    <?php require $_SERVER['DOCUMENT_ROOT'] . "/badminton/function/function.php"; ?>
     <div class="container mt-5">
+    <div class="alert alert-success" role="alert">
+           <h4> วันที่ <?php echo datethai($_SESSION['date']);?></h4>
+        </div>
         <div class="card">
             <h5 class="card-header">สนาม</h5>
             <div class="card-body">
@@ -34,22 +36,32 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                        </tr>
+                        <?php
+                            $court = $courtObj->getCourtByDateUser($_SESSION['date'],$_SESSION['b_u_id']);
+                            // print_r($court);
+                            $i =0;
+                            foreach($court as $c){
+                                $i++;
+                                echo "
+                                    <tr>
+                                        <th scope='row'>{$i}</th>
+                                        <td>{$c['c_name']}</td>
+                                        <td>edit</td>
+                                    </tr>
+                                ";
+                            }
+                        ?>
+                        
 
                     </tbody>
                 </table>
                 <hr>
-                <form action="index.php" method="POST">
+                <form action="" method="POST">
                     <div class="d-flex mb-2">
-
                         <div class="">
-                            <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="สนาม" name="court">
+                            <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="สนาม" name="c_name">
                         </div>
-                        <button type="submit" class="btn btn-success mx-2 text-white">เพิ่ม</button>
+                        <button type="submit" class="btn btn-success mx-2 text-white" name="add">เพิ่ม</button>
                     </div>
                 </form>
                 <!-- <h5 class="card-title">วันที่</h5>
@@ -90,7 +102,23 @@
         </div>
     </div>
     <div class="container mt-5">
-
+    <?php
+        if(isset($_POST['add'])){
+            unset($_POST['add']);
+            $_POST['c_date']=$_SESSION['date'];
+            $_POST['u_id']=$_SESSION['b_u_id'];
+            $_POST['c_status']=0;
+            print_r($_POST);
+            $ck = $courtObj->addCourt($_POST);
+            if ($ck) {
+                echo "  
+                    <script type='text/javascript'>
+                        setTimeout(function(){location.href='/badminton/pages/court.php'} , 1);
+                    </script>
+                ";
+            }
+        }
+    ?>
 
     </div>
 

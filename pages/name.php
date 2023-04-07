@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <title>Basic Form Elements | Bootstrap Based Admin Template - Material Design</title>
+    <title>Badminton</title>
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <?php require $_SERVER['DOCUMENT_ROOT'] . "/badminton/components/link.php"; ?>
     <style>
@@ -20,7 +20,6 @@
 <body class="font-sriracha">
     <?php require $_SERVER['DOCUMENT_ROOT'] . "/badminton/components/nav.php"; ?>
     <?php require $_SERVER['DOCUMENT_ROOT'] . "/badminton/components/botton.php"; ?>
-    <?php require $_SERVER['DOCUMENT_ROOT'] . "/badminton/function/function.php"; ?>
     <div class="container mt-5">
         <div class="card">
             <h5 class="card-header">ผู้เล่น</h5>

@@ -20,50 +20,50 @@
 <body class="font-sriracha">
     <?php require $_SERVER['DOCUMENT_ROOT'] . "/badminton/components/nav.php"; ?>
     <?php require $_SERVER['DOCUMENT_ROOT'] . "/badminton/components/botton.php"; ?>
-    <?php //require $_SERVER['DOCUMENT_ROOT'] . "/badminton/function/function.php"; ?>
     <div class="container mt-5">
-        <div class="alert alert-success" role="alert">
+    <div class="alert alert-success" role="alert">
            <h4> วันที่ <?php echo datethai($_SESSION['date']);?></h4>
         </div>
-    <?php
-        $court = $courtObj->getCourtByDateUser($_SESSION['date'],$_SESSION['b_u_id']);
-        // print_r($_SESSION);
-        foreach($court as $c){
-            ?>
-        <div class="card mt-2">
-            <h5 class="card-header">สนาม <?php echo $c['c_name'];?></h5>
+        <div class="card">
+            <h5 class="card-header">สมาชิก</h5>
             <div class="card-body">
                 <table class="table">
                     <thead>
                         <tr>
                             <th scope="col">#</th>
-                            <th scope="col">ผู้เล่น</th>
+                            <th scope="col">ชื่อ</th>
+                            <th scope="col">แก้ไข</th>
                         </tr>
                     </thead>
                     <tbody>
+                        <?php
+                            $member = $memberObj->getMemberByDateUser($_SESSION['date'],$_SESSION['b_u_id']);
+                            // print_r($member);
+                            $i =0;
+                            foreach($member as $c){
+                                $i++;
+                                echo "
+                                    <tr>
+                                        <th scope='row'>{$i}</th>
+                                        <td>{$c['m_name']}</td>
+                                        <td>edit</td>
+                                    </tr>
+                                ";
+                            }
+                        ?>
                         
 
                     </tbody>
                 </table>
                 <hr>
-                
-                <form action="index.php" method="POST">
-                <div class="form-group mt-2">
-                    <label for="" class="text-primary">ลูกแบด</label>
-                    <ol>
-                        <li>
-                            <div class="d-flex mb-2">
-                                <div class="col-8">
-                                    <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="number" name="snam[]">
-                                </div>
-                                <button class="btn btn-success mx-2 sbtn-add text-white">เพิ่ม</button>
-                                <button class="btn btn-danger sbtn-remove text-white">ลบ</button>
-                            </div>
-                        </li>
-                    </ol>
-                </div>
+                <form action="" method="POST">
+                    <div class="d-flex mb-2">
+                        <div class="">
+                            <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="สนาม" name="m_name" autofocus>
+                        </div>
+                        <button type="submit" class="btn btn-success mx-2 text-white" name="add">เพิ่ม</button>
+                    </div>
                 </form>
-              
                 <!-- <h5 class="card-title">วันที่</h5>
                 <div class="">
                     <input type="text" id="datepicker" class="form-control" placeholder="yyyy-mm-dd" name="dateS" autocomplete="off">
@@ -100,12 +100,25 @@
 
             </div>
         </div>
-        <?php
-                }
-                ?>
     </div>
     <div class="container mt-5">
-
+    <?php
+        if(isset($_POST['add'])){
+            unset($_POST['add']);
+            $_POST['m_date']=$_SESSION['date'];
+            $_POST['u_id']=$_SESSION['b_u_id'];
+            $_POST['m_status']=0;
+            print_r($_POST);
+            $ck = $memberObj->addMember($_POST);
+            if ($ck) {
+                echo "  
+                    <script type='text/javascript'>
+                        setTimeout(function(){location.href='/badminton/pages/member.php'} , 1);
+                    </script>
+                ";
+            }
+        }
+    ?>
 
     </div>
 

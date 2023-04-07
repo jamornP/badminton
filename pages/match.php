@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <title>Basic Form Elements | Bootstrap Based Admin Template - Material Design</title>
+    <title>Badminton</title>
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <?php require $_SERVER['DOCUMENT_ROOT'] . "/badminton/components/link.php"; ?>
     <style>
@@ -20,100 +20,177 @@
 <body class="font-sriracha">
     <?php require $_SERVER['DOCUMENT_ROOT'] . "/badminton/components/nav.php"; ?>
     <?php require $_SERVER['DOCUMENT_ROOT'] . "/badminton/components/botton.php"; ?>
-    <?php require $_SERVER['DOCUMENT_ROOT'] . "/badminton/function/function.php"; ?>
     <div class="container mt-5">
-    <?php
-                    for($i=1;$i<3;$i++){
-                ?>
+        <div class="alert alert-success" role="alert">
+            <h4> วันที่ <?php echo datethai($_SESSION['date']); ?></h4>
+        </div>
         <div class="card mt-2">
-            <h5 class="card-header">สนาม<?php echo $i;?></h5>
+            <h5 class="card-header">แมท<?php //echo $i;
+                                        ?></h5>
             <div class="card-body">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">ผู้เล่น</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>user1</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td>user2</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">3</th>
-                            <td>user3</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">4</th>
-                            <td>user4</td>
-                        </tr>
 
-                    </tbody>
-                </table>
+                <form action="" method="POST">
+                    <div class="form-group mt-2">
+                        <label for="" class="text-primary">สนาม</label>
+                        <div class="d-flex mb-2">
+                            <div class="col-8">
+                                <select class="form-select form-select" aria-label="form-select-sm example" name="c_id">
+                                    <option selected>เลือก</option>
+                                    <?php
+                                    $court = $courtObj->getCourtByDateUserStatus($_SESSION['date'], $_SESSION['b_u_id'], 0);
+                                    // print_r($court);
+                                    $i = 0;
+                                    foreach ($court as $c) {
+                                        $i++;
+                                        $selected = ($c['c_id'] == $_POST['c_id'] ? "selected" : "");
+                                        echo "
+                                            <option value='{$c['c_id']}' {$selected}>{$c['c_name']}</option>
+                                        ";
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-success mx-2 text-white" name="court">จัดการ</button>
+                        </div>
+                    </div>
+                </form>
                 <hr>
-                
-                <form action="index.php" method="POST">
-                <div class="form-group mt-2">
-                    <label for="" class="text-primary">ลูกแบด</label>
-                    <ol>
-                        <li>
+        <?php
+        if (isset($_POST['court'])) {
+            if($_POST['court']!= "1"){
+            // }else{
+            // print_r($_POST);
+            $num = $matchObj->getNumCourtMatch($_SESSION['date'], $_SESSION['b_u_id'], $_POST['c_id']);
+            $court = $courtObj->getCourtById($_POST['c_id']);
+            // echo $num;
+            $match['c_id'] = $_POST['c_id'];
+            $match['ma_num'] = $num;
+            $match['ma_date'] = $_SESSION['date'];
+            $match['ma_status'] = 1;
+            $match['u_id'] = $_SESSION['b_u_id'];
+            // print_r($match);
+            // if()
+            $ma_id = $matchObj->addMatch($match);
+            $_SESSION['ma_id']=$ma_id;
+            $courtU['c_id']=$match['c_id'];
+            $courtU['c_status']=1;
+            $ckC = $courtObj->updateCourt($courtU);
+        }
+        ?>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">สนาม</th>
+                        <th scope="col">แมทที่</th>
+                        <th scope="col">แก้ไข</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    $data_match = $matchObj->getMatchByDateUser($_SESSION['date'], $_SESSION['b_u_id']);
+                    // print_r($data_match);
+                    $i = 0;
+                    foreach ($data_match as $dm) {
+                        $i++;
+                        echo "
+                            <tr>
+                                <th scope='col'>{$i}</th>
+                                <th>{$dm['c_name']}</th>
+                                <th>{$dm['ma_num']}</th>
+                                <th>{$dm['ma_status']}</th>
+                            </tr>
+                        ";
+                    }
+                    ?>
+
+                </tbody>
+            </table>
+            <hr>
+            <div class="card mt-2">
+                <h5 class="card-header">สนาม <?php echo $court['c_name'] . " คู่ที่ " . $num;
+                                                ?></h5>
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">ผู้เล่น</th>
+                                <th scope="col">ลบ</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                                $dataMD=$matchObj->getMatchDataByDateUser($_SESSION['date'],$_SESSION['b_u_id']);
+                                $i=0;
+                                foreach($dataMD as $dmd){
+                                $i++;
+                                    echo "
+                                    <tr>
+                                        <th scope='row'>{$i}</th>
+                                        <td>{$dmd['m_name']}</td>
+                                        <td>del</td>
+                                    </tr>
+                                    ";
+                                }
+                            ?>
+                           
+
+
+                        </tbody>
+                    </table>
+                    <hr>
+
+                    <form action="" method="POST">
+                        <div class="form-group mt-2">
+                            <label for="" class="text-primary">ผู้เลาน</label>
                             <div class="d-flex mb-2">
                                 <div class="col-8">
-                                    <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="number" name="snam[]">
+                                    <select class="form-select form-select" aria-label=".form-select-sm example" name="m_id">
+                                        <option selected>เลือก</option>
+                                        <?php
+                                        // $court = $courtObj->getCourtByDateUserStatus($_SESSION['date'], $_SESSION['b_u_id'],0);
+                                        $member = $memberObj->getMemberByDateUserStatus($_SESSION['date'], $_SESSION['b_u_id'], 0);
+                                        // print_r($court);
+                                        $i = 0;
+                                        foreach ($member as $m) {
+                                            $i++;
+                                            $selected = ($m['m_id'] == $_POST['m_id'] ? "selected" : "");
+                                            echo "
+                                            <option value='{$m['m_id']}' {$selected}>{$m['m_name']}</option>
+                                        ";
+                                        }
+                                        ?>
+                                    </select>
                                 </div>
-                                <button class="btn btn-success mx-2 sbtn-add text-white">เพิ่ม</button>
-                                <button class="btn btn-danger sbtn-remove text-white">ลบ</button>
+                                <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="" name="court" value="1">
+                                <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="" name="c_id" value="<?php echo $_POST['c_id'];?>">
+                                <button type="submit" class="btn btn-success mx-2 text-white" name="add_member">เพิ่ม</button>
                             </div>
-                        </li>
-                    </ol>
+                        </div>
+                    </form>
                 </div>
-                </form>
-              
-                <!-- <h5 class="card-title">วันที่</h5>
-                <div class="">
-                    <input type="text" id="datepicker" class="form-control" placeholder="yyyy-mm-dd" name="dateS" autocomplete="off">
-                </div> -->
-                <!-- <div class="form-group mt-2">
-                    <label for="" class="text-primary">สนาม</label>
-                    <ol>
-                        <li>
-                            <div class="d-flex mb-2">
-
-                                <div class="">
-                                    <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="สนาม" name="snam[]">
-                                </div>
-                                <button class="btn btn-success mx-2 sbtn-add text-white">เพิ่ม</button>
-                                <button class="btn btn-danger sbtn-remove text-white">ลบ</button>
-                            </div>
-                        </li>
-                    </ol>
-                </div>
-                <div class="form-group mt-2">
-                    <label for="" class="text-primary">รายชื่อ</label>
-                    <ol>
-                        <li>
-                            <div class="d-flex mb-2">
-                                <div class="">
-                                    <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="ชื่อ" name="name[]">
-                                </div>
-                                <button class="btn btn-success mx-2 nbtn-add text-white">เพิ่ม</button>
-                                <button class="btn btn-danger nbtn-remove text-white">ลบ</button>
-                            </div>
-                        </li>
-                    </ol>
-                </div> -->
-
+            </div>
+        <?php
+        }
+        ?>
             </div>
         </div>
-        <?php
-                }
-                ?>
     </div>
+    <?php
+    if (isset($_POST['add_member'])) {
+        // unset($_POST['add_member']);
+        $dataM['ma_id']=$_SESSION['ma_id'];
+        $dataM['m_id']=$_POST['m_id'];
+        $dataM['md_date']=$_SESSION['date'];
+        $dataM['u_id']=$_SESSION['b_u_id'];
+        print_r($dataM);
+        $md_id = $matchObj->addMatchData($dataM);
+        $dataMU['m_id']=$_POST['m_id'];
+        $dataMU['m_status']=1;
+        $ckUM = $memberObj->updateMember($dataMU);
+    }
+    ?>
     <div class="container mt-5">
 
 
