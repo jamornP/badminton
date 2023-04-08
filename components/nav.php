@@ -13,6 +13,8 @@ use App\Model\Badminton\Member;
 $memberObj = new Member;
 use App\Model\Badminton\Matchs;
 $matchObj = new Matchs;
+use App\Model\Badminton\Dates;
+$dateObj = new Dates;
 $_SESSION['date']=date("Y-m-d");
 
 if(isset($_SESSION['b_login']) AND ($_SESSION['b_login']== true)){

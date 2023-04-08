@@ -20,9 +20,10 @@
 <body class="font-sriracha">
     <?php require $_SERVER['DOCUMENT_ROOT'] . "/badminton/components/nav.php"; ?>
     <?php require $_SERVER['DOCUMENT_ROOT'] . "/badminton/components/botton.php"; ?>
+    <?php $_SESSION['date'] = $_GET['date'];?>
     <div class="container mt-5">
     <div class="alert alert-success" role="alert">
-           <h4> วันที่ <?php echo datethai($_SESSION['date']);?></h4>
+           <h4> วันที่ <?php echo datethai($_GET['date']);?></h4>
         </div>
         <div class="card">
             <h5 class="card-header">สนาม</h5>

@@ -100,7 +100,7 @@ $usersObj = new Users;
            
             echo "  
                 <script type='text/javascript'>
-                    setTimeout(function(){location.href='/badminton/pages/court.php'} , 1);
+                    setTimeout(function(){location.href='/badminton/pages'} , 1);
                 </script>
             ";
         }
