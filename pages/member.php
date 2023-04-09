@@ -25,7 +25,7 @@
            <h4> วันที่ <?php echo datethai($_SESSION['date']);?></h4>
         </div>
         <div class="card">
-            <h5 class="card-header">สมาชิก</h5>
+            <h5 class="card-header">ผู้เล่น</h5>
             <div class="card-body">
                 <table class="table">
                     <thead>
@@ -59,7 +59,7 @@
                 <form action="" method="POST">
                     <div class="d-flex mb-2">
                         <div class="">
-                            <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="สนาม" name="m_name" autofocus>
+                            <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="ชื่อ" name="m_name" autofocus>
                         </div>
                         <button type="submit" class="btn btn-success mx-2 text-white" name="add">เพิ่ม</button>
                     </div>
@@ -100,6 +100,12 @@
 
             </div>
         </div>
+        <br>
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <a href="/badminton/pages/court.php" class="btn btn-warning text-white me-md-2"><< ย้อนกลับ</a>
+            <a href="/badminton/pages/match.php" class="btn btn-success text-white me-md-2">ต่อไป >></a>
+        </div>
+        <br><br><br>
     </div>
     <div class="container mt-5">
     <?php

@@ -11,16 +11,18 @@ class Matchs extends DbBadminton
   {
     $sql = "
         INSERT INTO tb_match (     
+            ma_date,
             c_id,
             ma_num,
-            ma_date,
-            ma_status,
+            dm_id,
+            b_id,
             u_id
         ) VALUES (
+            :ma_date,
             :c_id,
             :ma_num,
-            :ma_date,
-            :ma_status,
+            :dm_id,
+            :b_id,
             :u_id
         )    
     ";
@@ -56,16 +58,26 @@ class Matchs extends DbBadminton
       }
       return $count;
   }
+  public function getCourtMatch($date,$u_id,$c_id){
+    $sql = "
+      SELECT * 
+      FROM tb_match
+      WHERE ma_date = '{$date}' AND u_id = {$u_id} AND c_id ={$c_id}
+      ";
+      $stmt = $this->pdo->query($sql);
+      $data = $stmt->fetchAll();
+      return $data;
+  }
 
 
   // match data
-  public function getMatchDataByDateUser($date,$u_id)
+  public function getMatchDataById($dm_id)
   {
     $sql ="
-        SELECT md.*, m.m_name
-        FROM tb_match_data as md
-        LEFT JOIN tb_member as m ON md.m_id = m.m_id
-        WHERE md.md_date = '{$date}' AND md.u_id = {$u_id} 
+        SELECT dm.*, m.m_name
+        FROM tb_data_match as dm
+        LEFT JOIN tb_member as m ON dm.m_id = m.m_id
+        WHERE dm.dm_id = '{$dm_id}'
     ";
     $stmt = $this->pdo->query($sql);
     $data = $stmt->fetchAll();
@@ -74,21 +86,83 @@ class Matchs extends DbBadminton
   public function addMatchData($data)
   {
     $sql = "
-        INSERT INTO tb_match_data (     
-            ma_id,
+        INSERT INTO tb_data_match (     
+            dm_id,
+            dm_num,
             m_id,
-            md_date,
-            u_id
+            dm_date
         ) VALUES (
-            :ma_id,
+            :dm_id,
+            :dm_num,
             :m_id,
-            :md_date,
-            :u_id
+            :dm_date
         )    
     ";
     $stmt = $this->pdo->prepare($sql);
     $stmt->execute($data);
     return $this->pdo->lastInsertId();
   }
+  public function countDM($dm_id){
+    $sql = "
+      SELECT * 
+      FROM tb_data_match
+      WHERE dm_id = '{$dm_id}'
+      ";
+      $stmt = $this->pdo->query($sql);
+      $data = $stmt->fetchAll();
+      
+      if((count($data)) <= 0){
+        $count = 1;
+      }else{
+        $count = count($data)+1;
+      }
+      return $count;
+  }
+
+  //bad
+  public function addBad($data)
+  {
+    $sql = "
+        INSERT INTO tb_bad (     
+          b_id,
+          b_name,
+          b_num
+        ) VALUES (
+          :b_id,
+          :b_name,
+          :b_num
+        )    
+    ";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute($data);
+    return $this->pdo->lastInsertId();
+  }
+  public function countBad($b_id){
+    $sql = "
+      SELECT * 
+      FROM tb_bad
+      WHERE b_id = '{$b_id}'
+      ";
+      $stmt = $this->pdo->query($sql);
+      $data = $stmt->fetchAll();
+      
+      if((count($data)) <= 0){
+        $count = 1;
+      }else{
+        $count = count($data)+1;
+      }
+      return $count;
+  }
+  public function getBadByid($b_id){
+    $sql = "
+      SELECT * 
+      FROM tb_bad
+      WHERE b_id = '{$b_id}'
+      ";
+      $stmt = $this->pdo->query($sql);
+      $data = $stmt->fetchAll();
+      return $data;
+  }
+
 }
 ?>

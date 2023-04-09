@@ -1,3 +1,4 @@
+<?php session_start();?>
 <!DOCTYPE html>
 <html>
 
@@ -18,9 +19,10 @@
 </head>
 
 <body class="font-sriracha">
+    <?php $_SESSION['date'] = $_GET['date'];?>
     <?php require $_SERVER['DOCUMENT_ROOT'] . "/badminton/components/nav.php"; ?>
     <?php require $_SERVER['DOCUMENT_ROOT'] . "/badminton/components/botton.php"; ?>
-    <?php $_SESSION['date'] = $_GET['date'];?>
+   
     <div class="container mt-5">
     <div class="alert alert-success" role="alert">
            <h4> วันที่ <?php echo datethai($_GET['date']);?></h4>
@@ -101,6 +103,12 @@
 
             </div>
         </div>
+        <br>
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <a href="/badminton/pages/index.php" class="btn btn-warning text-white me-md-2"><< ย้อนกลับ</a>
+            <a href="/badminton/pages/member.php" class="btn btn-success text-white me-md-2">ต่อไป >></a>
+        </div>
+        <br><br><br>
     </div>
     <div class="container mt-5">
     <?php
@@ -114,7 +122,7 @@
             if ($ck) {
                 echo "  
                     <script type='text/javascript'>
-                        setTimeout(function(){location.href='/badminton/pages/court.php'} , 1);
+                        setTimeout(function(){location.href='/badminton/pages/court.php?date={$_SESSION['date']}'} , 1);
                     </script>
                 ";
             }

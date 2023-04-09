@@ -40,8 +40,7 @@
         <div class="card">
             <h5 class="card-header">ขั้นตอนที่ 1</h5>
             <div class="card-body">
-            <h5 class="card-header">ข้อมูลวันที่</h5>
-            <div class="card-body">
+                <p class="">ข้อมูลวันที่</p>
                 <table class="table">
                     <thead>
                         <tr>
@@ -73,7 +72,9 @@
                 </table>
                 <hr>
                 <form action="" method="POST">
+                    <label for="datepicker">เลือกวันที่</label>
                     <div class="d-flex mb-2">
+                    
                         <div class="">
                         <input type="text" id="datepicker" class="form-control" name="d_date" required autocomplete="off" value="">
                         </div>
@@ -81,6 +82,7 @@
                     </div>
                 </form>
             
+            </div>
         </div>
 
     </div>
