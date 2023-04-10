@@ -93,7 +93,7 @@ $usersObj = new Users;
     <?php
     if (isset($_POST['submit'])) {
         unset($_POST['submit']);
-        print_r($_POST);
+        // print_r($_POST);
         $ck = $usersObj->checkUsers($_POST);
         echo "<br>".$ck;
         if ($ck) {
@@ -107,7 +107,7 @@ $usersObj = new Users;
     }
     if (isset($_POST['register'])) {
         unset($_POST['register']);
-        print_r($_POST);
+        // print_r($_POST);
         $ck = $usersObj->addUsers($_POST);
         // $ck = true;
         if ($ck) {
