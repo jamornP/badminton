@@ -48,7 +48,7 @@ if (isset($_SESSION['b_login']) and ($_SESSION['b_login'] == true)) {
                 <a class='nav-link' href='/badminton/pages/match.php'>แข่งขัน</a>
             </li>
             <li class='nav-item'>
-                <a class='nav-link ' href='#'>คำนวน</a>
+                <a class='nav-link ' href='/badminton/pages/cal.php'>คำนวน</a>
             </li>
         </ul>
     ";

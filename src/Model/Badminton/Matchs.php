@@ -163,6 +163,22 @@ class Matchs extends DbBadminton
       $data = $stmt->fetchAll();
       return $data;
   }
-
+  public function delSQL($sql){
+    $this->pdo->query($sql);
+    // $data = $stmt->fetchAll();
+    return true;
+  }
+  public function countSQL($sql){
+    $stmt = $this->pdo->query($sql);
+    $data = $stmt->fetchAll();
+    $countD = count($data);
+    return $countD;
+  }
+  public function getSQL($sql){
+    $stmt = $this->pdo->query($sql);
+    $data = $stmt->fetchAll();
+    // $countD = count($data);
+    return $data;
+  }
 }
 ?>

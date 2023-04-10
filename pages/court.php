@@ -49,7 +49,7 @@
                                     <tr>
                                         <th scope='row'>{$i}</th>
                                         <td>{$c['c_name']}</td>
-                                        <td>edit</td>
+                                        <td><a href='/badminton/pages/del.php?action=court&c_id={$c['c_id']}'>ลบ</a></td>
                                     </tr>
                                 ";
                             }
@@ -62,7 +62,7 @@
                 <form action="" method="POST">
                     <div class="d-flex mb-2">
                         <div class="">
-                            <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="สนาม" name="c_name">
+                            <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="สนาม" name="c_name" autofocus>
                         </div>
                         <button type="submit" class="btn btn-success mx-2 text-white" name="add">เพิ่ม</button>
                     </div>
@@ -116,7 +116,6 @@
             unset($_POST['add']);
             $_POST['c_date']=$_SESSION['date'];
             $_POST['u_id']=$_SESSION['b_u_id'];
-            $_POST['c_status']=0;
             print_r($_POST);
             $ck = $courtObj->addCourt($_POST);
             if ($ck) {

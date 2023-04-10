@@ -46,7 +46,7 @@
                                     <tr>
                                         <th scope='row'>{$i}</th>
                                         <td>{$c['m_name']}</td>
-                                        <td>edit</td>
+                                        <td><a href='/badminton/pages/del.php?action=member&m_id={$c['m_id']}'>ลบ</a></td>
                                     </tr>
                                 ";
                             }
@@ -113,7 +113,6 @@
             unset($_POST['add']);
             $_POST['m_date']=$_SESSION['date'];
             $_POST['u_id']=$_SESSION['b_u_id'];
-            $_POST['m_status']=0;
             print_r($_POST);
             $ck = $memberObj->addMember($_POST);
             if ($ck) {

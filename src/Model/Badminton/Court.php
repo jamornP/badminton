@@ -13,12 +13,10 @@ class Court extends DbBadminton
         INSERT INTO tb_court (     
         c_name, 
         c_date,
-        c_status,
         u_id
         ) VALUES (
         :c_name, 
         :c_date,
-        :c_status,
         :u_id
         )    
     ";
@@ -29,11 +27,7 @@ class Court extends DbBadminton
   public function updateCourt($data)
   {
     $sql = "
-        UPDATE tb_court 
-        SET
-            c_status = :c_status
-        WHERE
-            c_id = :c_id
+        
     ";
     $stmt = $this->pdo->prepare($sql);
     $stmt->execute($data);
@@ -50,12 +44,12 @@ class Court extends DbBadminton
     $data = $stmt->fetchAll();
     return $data;
   }
-  public function getCourtByDateUserStatus($date,$u_id,$status)
+  public function getCourtByDateUserStatus($date,$u_id)
   {
     $sql ="
         SELECT * 
         FROM tb_court 
-        WHERE (c_date = '{$date}') AND (u_id = {$u_id}) AND (c_status = {$status})
+        WHERE (c_date = '{$date}') AND (u_id = {$u_id}) 
     ";
     $stmt = $this->pdo->query($sql);
     $data = $stmt->fetchAll();

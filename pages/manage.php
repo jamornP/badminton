@@ -142,6 +142,7 @@
                         <th scope="col">แมทที่</th>
                         <th scope="col">ผู้เล่น</th>
                         <th scope="col">ลูก</th>
+                        <th scope="col">เพิ่ม</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -177,6 +178,7 @@
                                         echo "<br>";
                                     }
                                     echo"</td>
+                                    <td> <button type='button' class='btn btn-primary btn-sm' data-bs-toggle='modal' data-bs-target='#exampleModal' data-bs-whatever='{$db['b_id']}'>+</button></td>
                                 </tr>
                             ";
                         }
@@ -190,11 +192,38 @@
         <?php
         }
         ?>
-        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-            <!-- <a href="/badminton/pages/member.php" class="btn btn-warning text-white me-md-2"><< ย้อนกลับ</a> -->
-            <!-- <a href="/badminton/pages/member.php" class="btn btn-success text-white me-md-2">ต่อไป >></a> -->
-        </div>
+       
         <br><br><br>
+
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">ลูกแบด สนาม <?php echo $_GET['court'];?></h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form action="bad.php" method="POST">
+                        <div class="modal-body">
+                            
+                            
+                                <input type="hidden" class="form-control" id="recipient-name" name="b_id">
+                                <input type="hidden" class="form-control" id="recipient-name" name="c_id" value="<?php echo $_GET['c_id'];?>">
+                                <input type="hidden" class="form-control" id="recipient-name" name="court" value="<?php echo $_GET['court'];?>">
+                            
+                            <div class="mb-3">
+                                <label for="b_name" class="col-form-label">ลูกแบด:</label>
+                                <input type="text" class="form-control" id="b_name" placeholder="ลูกที่" name="b_name" required>
+                            </div>
+                            
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary" name="add_bad">เพิ่ม</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
    
     <?php require $_SERVER['DOCUMENT_ROOT'] . "/badminton/components/script.php"; ?>
@@ -267,6 +296,28 @@
 
         })
     </script>
+    <script>
+        var exampleModal = document.getElementById('exampleModal')
+        exampleModal.addEventListener('show.bs.modal', function (event) {
+        // Button that triggered the modal
+        var button = event.relatedTarget
+        // Extract info from data-bs-* attributes
+        var recipient = button.getAttribute('data-bs-whatever')
+        // If necessary, you could initiate an AJAX request here
+        // and then do the updating in a callback.
+        //
+        // Update the modal's content.
+        var modalTitle = exampleModal.querySelector('.modal-title')
+        var modalBodyInput = exampleModal.querySelector('.modal-body input')
+        
+
+        // modalTitle.textContent = 'New message to ' + recipient
+        modalBodyInput.value = recipient
+        // document.getElementById("b_name").focus();
+        
+        })
+    </script>
+    
 </body>
 
 </html>
