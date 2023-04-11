@@ -10,24 +10,30 @@ class Users extends DbBadminton
   public function addUsers($data)
   {
     $data['u_password'] = password_hash($data['u_password'],PASSWORD_DEFAULT);
-    $sql = "
-          INSERT INTO tb_users (     
+    $ck = $this->countUsersByUser($data['u_username']);
+    if($ck){
+        $sql = "
+            INSERT INTO tb_users (     
             u_username,
             u_password,
             u_name,
             u_team,
             u_tel
-          ) VALUES (
+            ) VALUES (
             :u_username,
             :u_password,
             :u_name,
             :u_team,
             :u_tel
-          )    
-      ";
-    $stmt = $this->pdo->prepare($sql);
-    $stmt->execute($data);
-    return $this->pdo->lastInsertId();
+            )    
+        ";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute($data);
+        return true;
+    }else{
+        return false;
+    }
+    
   }
   public function checkUsers($user) {
     $sql = "
@@ -46,7 +52,10 @@ class Users extends DbBadminton
         $_SESSION['b_u_tel'] = $userDB['u_tel'];
         $_SESSION['b_u_id'] = $userDB['u_id'];
         $_SESSION['b_u_tel'] = $userDB['u_tel'];
-        $_SESSION['b_login'] = true;    
+        $_SESSION['b_login'] = true;   
+        if($user['u_username']=='admin'){
+            $_SESSION['admin']=true;
+        } 
         return true;
     } else {
         return false;
@@ -98,6 +107,31 @@ public function changePassword($user) {
         // return $sql2;
         return false;
     }
+}
+public function getUsers() {
+    $sql = "
+        SELECT *
+        FROM tb_users
+    ";
+    $stmt = $this->pdo->query($sql);
+    $data = $stmt->fetchAll();
+    return $data;
+}
+public function countUsersByUser($user) {
+    $sql = "
+        SELECT *
+        FROM tb_users
+        WHERE u_username='{$user}'
+    ";
+    $stmt = $this->pdo->query($sql);
+    $data = $stmt->fetchAll();
+    $count = count($data);
+    if($count > 0){
+        return false;
+    }else{
+        return true;
+    }
+    
 }
 }
 ?>

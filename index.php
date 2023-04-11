@@ -27,6 +27,22 @@ $usersObj = new Users;
     </nav>
     <?php require $_SERVER['DOCUMENT_ROOT'] . "/badminton/components/botton.php"; ?>
     <div class="container font-sriracha">
+        <?php 
+        if(isset($_GET['err'])){
+            echo "
+                <div class='alert alert-danger mt-2' role='alert'>
+                    <h4> {$_GET['err']}</h4>
+                </div>
+            ";
+        }
+        if(isset($_GET['success'])){
+            echo "
+                <div class='alert alert-success mt-2' role='alert'>
+                    <h4> {$_GET['success']}</h4>
+                </div>
+            ";
+        }
+        ?>
         <div class="card mt-5">
             <div class="card-body">
                 <form action="index.php" method="POST">
@@ -95,7 +111,7 @@ $usersObj = new Users;
         unset($_POST['submit']);
         // print_r($_POST);
         $ck = $usersObj->checkUsers($_POST);
-        echo "<br>".$ck;
+        // echo "<br>".$ck;
         if ($ck) {
            
             echo "  
@@ -111,11 +127,19 @@ $usersObj = new Users;
         $ck = $usersObj->addUsers($_POST);
         // $ck = true;
         if ($ck) {
+            $success="ลงทะเบียนสำเร็จ กรุณาเข้าสู่ระบบด้วย Username ที่ลงทะเบียนไว้";
             echo "  
                 <script type='text/javascript'>
-                    setTimeout(function(){location.href='/badminton'} , 1);
+                    setTimeout(function(){location.href='/badminton/index.php?success={$success}'} , 1);
                 </script>
             ";
+        }else{
+            $err = "Username นี้มีอยู่แล้ว กรุณาใช้ Username ใหม่";
+            echo "  
+                <script type='text/javascript'>
+                    setTimeout(function(){location.href='/badminton/index.php?err={$err}'} , 1);
+                </script>
+        ";
         }
     }
     ?>

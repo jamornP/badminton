@@ -21,11 +21,11 @@
     <?php require $_SERVER['DOCUMENT_ROOT'] . "/badminton/components/nav.php"; ?>
     <?php require $_SERVER['DOCUMENT_ROOT'] . "/badminton/components/botton.php"; ?>
     <div class="container mt-5">
-    <div class="alert alert-success" role="alert">
+        <div class="alert alert-success" role="alert">
            <h4> วันที่ <?php echo datethai($_SESSION['date']);?></h4>
         </div>
         <div class="card">
-            <h5 class="card-header">ผู้เล่น</h5>
+            <h5 class="card-header">3.ผู้เล่น</h5>
             <div class="card-body">
                 <table class="table">
                     <thead>
@@ -102,7 +102,7 @@
         </div>
         <br>
         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-            <a href="/badminton/pages/court.php" class="btn btn-warning text-white me-md-2"><< ย้อนกลับ</a>
+            <a href="/badminton/pages/court.php?date=<?php echo $_SESSION['date'];?>" class="btn btn-warning text-white me-md-2"><< ย้อนกลับ</a>
             <a href="/badminton/pages/match.php" class="btn btn-success text-white me-md-2">ต่อไป >></a>
         </div>
         <br><br><br>

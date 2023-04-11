@@ -25,7 +25,7 @@
             <h4> วันที่ <?php echo datethai($_SESSION['date']); ?></h4>
         </div>
         <div class="card mt-2">
-            <h5 class="card-header">จัดการแมท<?php //echo $i;
+            <h5 class="card-header">4.จัดแมท<?php //echo $i;
                                         ?></h5>
             <div class="card-body">
                 <table class="table">

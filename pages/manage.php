@@ -70,7 +70,7 @@
             <?php
                 $ma_num = $matchObj->getNumCourtMatch($_SESSION['date'],$_SESSION['b_u_id'],$_GET['c_id']);
             ?>
-            <h5 class="card-header">สนาม <?php echo $_GET['court'];?></h5>
+            <h5 class="card-header">4. จัดแมท สนาม <span class="badge bg-danger"><?php echo $_GET['court'];?></span></h5>
             <div class="card-body">
                 <p>แมทที่ <?php echo $ma_num;?></p>
                 <form action="" method="POST">
@@ -139,10 +139,10 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th scope="col">แมทที่</th>
+                        <th scope="col">เกมส์ที่</th>
                         <th scope="col">ผู้เล่น</th>
                         <th scope="col">ลูก</th>
-                        <th scope="col">เพิ่ม</th>
+                        <th scope="col">เพิ่มลูก</th>
                     </tr>
                 </thead>
                 <tbody>

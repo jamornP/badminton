@@ -21,6 +21,9 @@
     <?php require $_SERVER['DOCUMENT_ROOT'] . "/badminton/components/nav.php"; ?>
     <?php require $_SERVER['DOCUMENT_ROOT'] . "/badminton/components/botton.php"; ?>
     <div class="container mt-5">
+        <div class="alert alert-success" role="alert">
+           <h4> 5.คำนวนค่าเสียหาย วันที่ <?php echo datethai($_SESSION['date']);?></h4>
+        </div>
         <div class="card">
             <h5 class="card-header bg-success text-white">ผู้เล่น</h5>
             <div class="card-body">
@@ -40,6 +43,7 @@
                             $sumMatch =0;
                             $sumBad =0;
                             foreach($mem as $m){
+                                $match_count = $matchObj->countSQL("select * from tb_match where u_id={$_SESSION['b_u_id']} and ma_date='{$_SESSION['date']}'");
                                 $matchM = $matchObj->countSQL("select * from tb_data_match where m_id={$m['m_id']}");
                                 $dataB = $matchObj->getSQL("select ma.b_id 
                                 from tb_data_match as dm
@@ -80,7 +84,7 @@
                     <div class="d-flex mb-2">
 
                         <div class="">
-                            <input type="hidden" class="form-control"  name="n_match" value="<?php echo $sumMatch/4;?>">
+                            <input type="hidden" class="form-control"  name="n_match" value="<?php echo $match_count;?>">
                             <input type="hidden" class="form-control"  name="n_bad" value="<?php echo $sumBad/4;?>">
                             <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="ราคาลูกแบด/ลูก" name="c_bad" autofocus required>
                         </div>

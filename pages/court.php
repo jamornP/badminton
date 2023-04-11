@@ -24,11 +24,11 @@
     <?php require $_SERVER['DOCUMENT_ROOT'] . "/badminton/components/botton.php"; ?>
    
     <div class="container mt-5">
-    <div class="alert alert-success" role="alert">
+        <div class="alert alert-success" role="alert">
            <h4> วันที่ <?php echo datethai($_GET['date']);?></h4>
         </div>
         <div class="card">
-            <h5 class="card-header">สนาม</h5>
+            <h5 class="card-header">2.สนาม</h5>
             <div class="card-body">
                 <table class="table">
                     <thead>

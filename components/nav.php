@@ -35,21 +35,31 @@ if (isset($_SESSION['b_login']) and ($_SESSION['b_login'] == true)) {
             </div>
         </nav>
         <ul class='nav justify-content-center'>
+        
             <li class='nav-item'>
-                <a class='nav-link'  href='/badminton/pages/index.php'>home</a>
+                <a class='nav-link'  href='/badminton/pages/index.php'>1.home</a>
             </li>
             <li class='nav-item'>
-                <a class='nav-link '  href='/badminton/pages/court.php?date={$_SESSION['date']}'>สนาม</a>
+                <a class='nav-link '  href='/badminton/pages/court.php?date={$_SESSION['date']}'>2.สนาม</a>
             </li>
             <li class='nav-item'>
-                <a class='nav-link' href='/badminton/pages/member.php'>ผู้เล่น</a>
+                <a class='nav-link' href='/badminton/pages/member.php'>3.ผู้เล่น</a>
             </li>
             <li class='nav-item'>
-                <a class='nav-link' href='/badminton/pages/match.php'>แข่งขัน</a>
+                <a class='nav-link' href='/badminton/pages/match.php'>4.จัดแมท</a>
             </li>
             <li class='nav-item'>
-                <a class='nav-link ' href='/badminton/pages/cal.php'>คำนวน</a>
+                <a class='nav-link ' href='/badminton/pages/cal.php'>5.คำนวน</a>
             </li>
+            ";
+        if(isset($_SESSION['admin']) AND $_SESSION['admin']==true){
+            echo "
+            <li class='nav-item'>
+                <a class='nav-link'  href='/badminton/pages/admin.php'>Admin</a>
+            </li>
+            ";
+        }
+        echo "
         </ul>
     ";
     } else {
@@ -60,8 +70,17 @@ if (isset($_SESSION['b_login']) and ($_SESSION['b_login'] == true)) {
             </div>
         </nav>
         <ul class='nav justify-content-center'>
+        ";
+        if(isset($_SESSION['admin']) AND $_SESSION['admin']==true){
+            echo "
             <li class='nav-item'>
-                <a class='nav-link'  href='/badminton/pages/index.php'>home</a>
+                <a class='nav-link'  href='/badminton/pages/admin.php'>Admin</a>
+            </li>
+            ";
+        }
+        echo "
+            <li class='nav-item'>
+                <a class='nav-link'  href='/badminton/pages/index.php'>1.home</a>
             </li>
             </ul>
             ";
