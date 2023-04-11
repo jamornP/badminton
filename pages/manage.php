@@ -48,13 +48,15 @@
                 }
                 if(isset($_POST['b_name'])){
                     foreach($_POST['b_name'] as $key => $b){
-                        $num = $matchObj->countBad($dataA['b_id']);
-                        $dataB['b_id']=$dataA['b_id'];
-                        $dataB['b_num']=$num;
-                        $dataB['b_name']=$_POST['b_name'][$key];
-                        // echo "<br>";
-                        // print_r($dataB);
-                        $ckB = $matchObj->addBad($dataB);
+                        if($_POST['b_name'][$key]!="-"){
+                            $num = $matchObj->countBad($dataA['b_id']);
+                            $dataB['b_id']=$dataA['b_id'];
+                            $dataB['b_num']=$num;
+                            $dataB['b_name']=$_POST['b_name'][$key];
+                            // echo "<br>";
+                            // print_r($dataB);
+                            $ckB = $matchObj->addBad($dataB);
+                        }
                     }
 
                 }
@@ -107,7 +109,7 @@
                         </ol>
                     </div>
                     <div class="form-group mt-2">
-                        <label for="" class="text-primary">ลูกแบด</label>
+                        <label for="" class="text-primary">ลูกแบด <b class="text-danger">กรณีที่ใช้ลูกเดิมให้ใส่ "-"</b></label>
                         <ol>
                             <li>
                                 <div class="d-flex mb-2">

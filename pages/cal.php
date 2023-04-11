@@ -42,8 +42,14 @@
                             $mem = $memberObj->getMemberByDateUser($_SESSION['date'],$_SESSION['b_u_id']);
                             $sumMatch =0;
                             $sumBad =0;
+                            $match_count = $matchObj->countSQL("select * from tb_match where u_id={$_SESSION['b_u_id']} and ma_date='{$_SESSION['date']}'");
+                            $match_bad = $matchObj->getSQL("select * from tb_match where u_id={$_SESSION['b_u_id']} and ma_date='{$_SESSION['date']}'");
+                            $bad_count = 0;
+                            foreach($match_bad as $mb){
+                                $bsum = $matchObj->countSQL("select * from tb_bad where b_id='{$mb['b_id']}'");
+                                $bad_count += $bsum;
+                            }
                             foreach($mem as $m){
-                                $match_count = $matchObj->countSQL("select * from tb_match where u_id={$_SESSION['b_u_id']} and ma_date='{$_SESSION['date']}'");
                                 $matchM = $matchObj->countSQL("select * from tb_data_match where m_id={$m['m_id']}");
                                 $dataB = $matchObj->getSQL("select ma.b_id 
                                 from tb_data_match as dm
@@ -85,7 +91,7 @@
 
                         <div class="">
                             <input type="hidden" class="form-control"  name="n_match" value="<?php echo $match_count;?>">
-                            <input type="hidden" class="form-control"  name="n_bad" value="<?php echo $sumBad/4;?>">
+                            <input type="hidden" class="form-control"  name="n_bad" value="<?php echo $bad_count;?>">
                             <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="ราคาลูกแบด/ลูก" name="c_bad" autofocus required>
                         </div>
                         <div class="">
@@ -124,59 +130,121 @@
                                 </thead>
                                 <tbody>
                                     <?php
-                                    $i=0;
-                                        $mem = $memberObj->getMemberByDateUser($_SESSION['date'],$_SESSION['b_u_id']);
-                                        // $sumMatch =0;
-                                        // $sumBad =0;
-                                        $c_court = $_POST['c_court'];
-                                        $c_bad = $_POST['c_bad'];
-                                        $s_match = 0;
-                                        $s_bad = 0;
-                                        $sumAll = 0;
-                                        $sum_Court =0;
-                                        $sum_Bad =0;
-                                        $sum_All =0;
-                                        foreach($mem as $m){
-                                            $matchM = $matchObj->countSQL("select * from tb_data_match where m_id={$m['m_id']}");
-                                            $dataB = $matchObj->getSQL("select ma.b_id 
-                                            from tb_data_match as dm
-                                            left join tb_match as ma on ma.dm_id = dm.dm_id
-                                            where dm.m_id={$m['m_id']}");
-                                            $bad = 0;
-                                            foreach($dataB as $b){
-                                                $matchB = $matchObj->countSQL("select * from tb_bad where b_id='{$b['b_id']}'");
-                                                $bad+=$matchB;
+                                        $_SESSION['cal']=2;
+                                        if($_SESSION['cal']==1){
+                                            $i=0;
+                                            $mem = $memberObj->getMemberByDateUser($_SESSION['date'],$_SESSION['b_u_id']);
+                                            // $sumMatch =0;
+                                            // $sumBad =0;
+                                            $c_court = $_POST['c_court'];
+                                            $c_bad = $_POST['c_bad'];
+                                            $s_match = 0;
+                                            $s_bad = 0;
+                                            $sumAll = 0;
+                                            $sum_Court =0;
+                                            $sum_Bad =0;
+                                            $sum_All =0;
+                                            foreach($mem as $m){
+                                                $matchM = $matchObj->countSQL("select * from tb_data_match where m_id={$m['m_id']}");
+                                                $dataB = $matchObj->getSQL("select ma.b_id 
+                                                from tb_data_match as dm
+                                                left join tb_match as ma on ma.dm_id = dm.dm_id
+                                                where dm.m_id={$m['m_id']}");
+                                                $bad = 0;
+                                                foreach($dataB as $b){
+                                                    $matchB = $matchObj->countSQL("select * from tb_bad where b_id='{$b['b_id']}'");
+                                                    $bad+=$matchB;
+                                                }
+                                                
+                                                $i++;
+                                                $s_match = number_format(($c_court/$sumMatch*$matchM),2);
+                                                $s_bad = number_format(($c_bad*($sumBad/4)/$sumBad*$bad),2);
+                                                $sumAll = number_format(($s_match + $s_bad),2);
+                                                $sum_Court += $s_match;
+                                                $sum_Bad += $s_bad;
+                                                $sum_All += $sumAll;
+                                                $sum_Court =number_format($sum_Court,2);
+                                                $sum_Bad =number_format($sum_Bad,2);
+                                                $sum_All =number_format($sum_All,2);
+                                                echo "
+                                                <tr>
+                                                    <td>{$i}</td>
+                                                    <td>{$m['m_name']}</td>
+                                                    <td class='text-end'>{$s_match}</td>
+                                                    <td class='text-end'>{$s_bad}</td>
+                                                    <td class='text-end'>{$sumAll}</td>
+                                                </tr>
+                                                ";
                                             }
-                                            
-                                            $i++;
-                                            $s_match = number_format(($c_court/$sumMatch*$matchM),2);
-                                            $s_bad = number_format(($c_bad*($sumBad/4)/$sumBad*$bad),2);
-                                            $sumAll = number_format(($s_match + $s_bad),2);
-                                            $sum_Court += $s_match;
-                                            $sum_Bad += $s_bad;
-                                            $sum_All += $sumAll;
-                                            $sum_Court =number_format($sum_Court,2);
-                                            $sum_Bad =number_format($sum_Bad,2);
-                                            $sum_All =number_format($sum_All,2);
                                             echo "
-                                            <tr>
-                                                <td>{$i}</td>
-                                                <td>{$m['m_name']}</td>
-                                                <td class='text-end'>{$s_match}</td>
-                                                <td class='text-end'>{$s_bad}</td>
-                                                <td class='text-end'>{$sumAll}</td>
-                                            </tr>
+                                                <tr>
+                                                    <th scope='row'></th>
+                                                    <th>รวม</th>
+                                                    <th class='text-end'>{$sum_Court}</th>
+                                                    <th class='text-end'>{$sum_Bad}</th>
+                                                    <th class='text-end'>{$sum_All}</th>
+                                                </tr>
+                                            ";
+                                        }else{
+                                            $i=0;
+                                            // จำนวน ขีด ของ เกมส์การเล่น (เล่น 4 คน = 1ขีด , เล่น 2 คน = 2 ขีด)/เกมส์
+                                            $count_match_sum = 0;
+                                            $sum_cal_court = 0;
+                                            $data_member = $memberObj->getMemberByDateUser($_SESSION['date'],$_SESSION['b_u_id']);
+                                            foreach($data_member as $d_m){
+                                                $i++;
+                                                $sql ="
+                                                    select ma.dm_id,ma.b_id,dm.* 
+                                                    from tb_data_match as dm
+                                                    left join tb_match as ma on ma.dm_id = dm.dm_id
+                                                    where dm.m_id = {$d_m['m_id']}
+                                                ";
+                                                $data_match = $matchObj->getSQL($sql);
+                                                // จำนวนแมทของ ผู้นเล่น คนนี้
+                                                $count_match = 0;
+                                                // เก็บจำนวนที่ใช้คำนวน 4/จำนวนผู้เล่นแต่ละแมท 4 คน = 1, 2 คน = 2
+                                                $count_match_i=0;
+                                                
+                                                // print_r($data_match);
+                                                foreach($data_match as $d_ma){
+                                                    $count_match++;
+                                                    $sql ="
+                                                        select * 
+                                                        from tb_data_match 
+                                                        where dm_id = '{$d_ma['dm_id']}'
+                                                    ";
+                                                    // echo $sql."<br>";
+                                                    // จำนวน คน ในแมทนี้
+                                                    $count_member = $matchObj->countSQL($sql);
+                                                    // echo $count_member;
+                                                    $count_match_i += 4/$count_member;
+                                                    // echo "->".$count_match_i.",";
+                                                    
+                                                }
+                                                $count_match_sum +=$count_match_i;
+                                                // echo "<br>";
+                                                $cal_court = number_format($count_match_i*$_POST['c_court']/($_POST['n_match']*4),2);
+                                                $sum_cal_court += $cal_court;
+                                                echo "
+                                                <tr>
+                                                    <td>{$i}</td>
+                                                    <td>{$d_m['m_name']}</td>
+                                                    <td class='text-end'>{$cal_court}</td>
+                                                    <td class='text-end'>{$count_match}</td>
+                                                    <td class='text-end'>{}</td>
+                                                </tr>
+                                                ";
+                                            }
+                                            echo "
+                                                <tr>
+                                                    <th scope='row'></th>
+                                                    <th>รวม</th>
+                                                    <th class='text-end'>{$sum_cal_court}</th>
+                                                    <th class='text-end'>{}</th>
+                                                    <th class='text-end'>{}</th>
+                                                </tr>
                                             ";
                                         }
-                                        echo "
-                                            <tr>
-                                                <th scope='row'></th>
-                                                <th>รวม</th>
-                                                <th class='text-end'>{$sum_Court}</th>
-                                                <th class='text-end'>{$sum_Bad}</th>
-                                                <th class='text-end'>{$sum_All}</th>
-                                            </tr>
-                                        ";
                                     ?>
                                     
 
