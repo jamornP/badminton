@@ -76,8 +76,8 @@
                                 <tr>
                                     <th scope='row'></th>
                                     <th>รวม</th>
-                                    <th class='text-end'>{$sumMatch}</th>
-                                    <th class='text-end'>{$sumBad}</th>
+                                    <th class='text-end'>{$match_count}</th>
+                                    <th class='text-end'>{$bad_count}</th>
                                 </tr>
                             ";
                         ?>
@@ -87,7 +87,7 @@
                 </table>
                 <hr>
                 <form action="" method="POST">
-                    <div class="d-flex mb-2">
+                    <div class="d-flex">
 
                         <div class="">
                             <input type="hidden" class="form-control"  name="n_match" value="<?php echo $match_count;?>">
@@ -97,14 +97,23 @@
                         <div class="">
                             <input type="text" class="form-control mx-1" id="exampleFormControlInput2" placeholder="ค่าสนามทั้งหมด" name="c_court" required>
                         </div>
-                        <button type="submit" class="btn btn-success mx-2 text-white" name="calulate">คำนวน</button>
+                        <div class="mx-2">
+                            <select class="form-select" aria-label="Default select example" name="cal">
+                                <option selected>แบบคำนวน</option>
+                                <option value="4">บุฟเฟ่ต์สนาม</option>
+                                <option value="2">ตามจริง</option>
+                                <!-- <option value="3">ไม่แยกเดี๋ยว</option> -->
+                            </select>
+                        </div>
+                       
                     </div>
+                    <button type="submit" class="btn btn-success text-white mt-2" name="calulate">คำนวน</button>
                 </form>
             </div>
         </div>
         <?php
             if(isset($_POST['calulate'])){
-                
+                // print_r($_POST);
 
                 ?>
                     <div class="card mt-5">
@@ -130,8 +139,159 @@
                                 </thead>
                                 <tbody>
                                     <?php
-                                        $_SESSION['cal']=2;
-                                        if($_SESSION['cal']==1){
+                                        // $_POST['cal']=2;
+                                        if($_POST['cal']==1){
+                                            $i=0;
+                                            $mem = $memberObj->getMemberByDateUser($_SESSION['date'],$_SESSION['b_u_id']);
+                                            // $sumMatch =0;
+                                            // $sumBad =0;
+                                            $count_member_all=count($mem);
+                                            // จำนวน ขีด ของ เกมส์การเล่น (เล่น 4 คน = 1ขีด , เล่น 2 คน = 2 ขีด)/เกมส์
+                                            $count_match_sum = 0;
+                                            $sum_cal_court = 0;
+                                            $sum_cal_bad = 0;
+                                            $sum_cal_all = 0;
+                                            $sum_all = 0;
+                                            $sum_member_day=0;
+                                            $court_bufe=0;
+                                            $data_member = $memberObj->getMemberByDateUser($_SESSION['date'],$_SESSION['b_u_id']);
+                                            foreach($data_member as $d_m){
+                                                $i++;
+                                                $sql ="
+                                                    select ma.dm_id,ma.b_id,dm.* 
+                                                    from tb_data_match as dm
+                                                    left join tb_match as ma on ma.dm_id = dm.dm_id
+                                                    where dm.m_id = {$d_m['m_id']}
+                                                ";
+                                                $data_match = $matchObj->getSQL($sql);
+                                                // จำนวนแมทของ ผู้นเล่น คนนี้
+                                                $count_match = 0;
+                                                // เก็บจำนวนที่ใช้คำนวน 4/จำนวนผู้เล่นแต่ละแมท 4 คน = 1, 2 คน = 2
+                                                $count_match_i=0;
+                                                $count_bad_i=0;
+                                                foreach($data_match as $d_ma){
+                                                    $count_match++;
+                                                    $sql ="
+                                                        select * 
+                                                        from tb_data_match 
+                                                        where dm_id = '{$d_ma['dm_id']}'
+                                                    ";
+                                                    
+                                                    // จำนวน คน ในแมทนี้
+                                                    $count_member = $matchObj->countSQL($sql);
+                                                    // ขีด แมท และ ลูกแบด
+                                                    $count_match_i = 1;
+                                                    $sql_bad = $matchObj->countSQL("select * from tb_bad where b_id='{$d_ma['b_id']}'");
+                                                    for($j=1;$j<=$sql_bad;$j++){
+                                                        $count_bad_i += (4/$count_member);
+                                                    }
+                                                    
+                                                }
+                                                $sum_member_day +=$count_match_i;
+                                                $count_match_sum +=$count_match_i;
+                                                // $cal_court ค่าคอร์ด
+                                                $cal_court = number_format($_POST['c_court']/$count_member_all,2);
+                                                $cal_bad = number_format($count_bad_i*($_POST['c_bad']/4),2);
+                                                $cal_all = number_format($cal_court+$cal_bad,2);
+                                                $sum_cal_court += $cal_court;
+                                                $sum_cal_bad += $cal_bad;
+                                                $sum_cal_all += $cal_all;
+                                                echo "
+                                                <tr>
+                                                    <td>{$i}</td>
+                                                    <td>{$d_m['m_name']}</td>
+                                                    <td class='text-end'>{$cal_court}</td>
+                                                    <td class='text-end'>{$cal_bad}({$count_bad_i})</td>
+                                                    <td class='text-end'>{$cal_all}</td>
+                                                </tr>
+                                                ";
+                                                
+                                            }
+                                           
+                                            echo "
+                                                <tr>
+                                                    <th scope='row'></th>
+                                                    <th>รวม</th>
+                                                    <th class='text-end'>{$sum_cal_court}</th>
+                                                    <th class='text-end'>{$sum_cal_bad}</th>
+                                                    <th class='text-end'>{$sum_cal_all}</th>
+                                                </tr>
+                                            ";
+                                            
+                                            $court_bufe=number_format($_POST['c_court']/$count_member_all,2);
+                                            echo "
+                                            <br>
+                                            <p>ค่าสนามคนละ {$court_bufe} บาท</p>
+                                            ";
+                                        }elseif($_POST['cal']==2){
+                                            $i=0;
+                                            // จำนวน ขีด ของ เกมส์การเล่น (เล่น 4 คน = 1ขีด , เล่น 2 คน = 2 ขีด)/เกมส์
+                                            $count_match_sum = 0;
+                                            $sum_cal_court = 0;
+                                            $sum_cal_bad = 0;
+                                            $sum_cal_all = 0;
+                                            $sum_all = 0;
+                                            $data_member = $memberObj->getMemberByDateUser($_SESSION['date'],$_SESSION['b_u_id']);
+                                            foreach($data_member as $d_m){
+                                                $i++;
+                                                $sql ="
+                                                    select ma.dm_id,ma.b_id,dm.* 
+                                                    from tb_data_match as dm
+                                                    left join tb_match as ma on ma.dm_id = dm.dm_id
+                                                    where dm.m_id = {$d_m['m_id']}
+                                                ";
+                                                $data_match = $matchObj->getSQL($sql);
+                                                // จำนวนแมทของ ผู้นเล่น คนนี้
+                                                $count_match = 0;
+                                                // เก็บจำนวนที่ใช้คำนวน 4/จำนวนผู้เล่นแต่ละแมท 4 คน = 1, 2 คน = 2
+                                                $count_match_i=0;
+                                                $count_bad_i=0;
+                                                foreach($data_match as $d_ma){
+                                                    $count_match++;
+                                                    $sql ="
+                                                        select * 
+                                                        from tb_data_match 
+                                                        where dm_id = '{$d_ma['dm_id']}'
+                                                    ";
+                                                    
+                                                    // จำนวน คน ในแมทนี้
+                                                    $count_member = $matchObj->countSQL($sql);
+                                                    // ขีด แมท และ ลูกแบด
+                                                    $count_match_i += 4/$count_member;
+                                                    $sql_bad = $matchObj->countSQL("select * from tb_bad where b_id='{$d_ma['b_id']}'");
+                                                    for($j=1;$j<=$sql_bad;$j++){
+                                                        $count_bad_i += (4/$count_member);
+                                                    }
+                                                    
+                                                }
+                                                $count_match_sum +=$count_match_i;
+                                                // $cal_court ค่าคอร์ด
+                                                $cal_court = number_format($count_match_i*$_POST['c_court']/($_POST['n_match']*4),2);
+                                                $cal_bad = number_format($count_bad_i*($_POST['c_bad']/4),2);
+                                                $cal_all = number_format($cal_court+$cal_bad,2);
+                                                $sum_cal_court += $cal_court;
+                                                $sum_cal_bad += $cal_bad;
+                                                $sum_cal_all += $cal_all;
+                                                echo "
+                                                <tr>
+                                                    <td>{$i}</td>
+                                                    <td>{$d_m['m_name']}</td>
+                                                    <td class='text-end'>{$cal_court}({$count_match_i})</td>
+                                                    <td class='text-end'>{$cal_bad}({$count_bad_i})</td>
+                                                    <td class='text-end'>{$cal_all}</td>
+                                                </tr>
+                                                ";
+                                            }
+                                            echo "
+                                                <tr>
+                                                    <th scope='row'></th>
+                                                    <th>รวม</th>
+                                                    <th class='text-end'>{$sum_cal_court}</th>
+                                                    <th class='text-end'>{$sum_cal_bad}</th>
+                                                    <th class='text-end'>{$sum_cal_all}</th>
+                                                </tr>
+                                            ";
+                                        }elseif($_POST['cal']==3){
                                             $i=0;
                                             $mem = $memberObj->getMemberByDateUser($_SESSION['date'],$_SESSION['b_u_id']);
                                             // $sumMatch =0;
@@ -170,8 +330,8 @@
                                                 <tr>
                                                     <td>{$i}</td>
                                                     <td>{$m['m_name']}</td>
-                                                    <td class='text-end'>{$s_match}</td>
-                                                    <td class='text-end'>{$s_bad}</td>
+                                                    <td class='text-end'>{$s_match}{}</td>
+                                                    <td class='text-end'>{$s_bad}{}</td>
                                                     <td class='text-end'>{$sumAll}</td>
                                                 </tr>
                                                 ";
@@ -185,11 +345,20 @@
                                                     <th class='text-end'>{$sum_All}</th>
                                                 </tr>
                                             ";
-                                        }else{
+                                        }elseif($_POST['cal']==4){
                                             $i=0;
+                                            $mem = $memberObj->getMemberByDateUser($_SESSION['date'],$_SESSION['b_u_id']);
+                                            // $sumMatch =0;
+                                            // $sumBad =0;
+                                            $count_member_all=count($mem);
                                             // จำนวน ขีด ของ เกมส์การเล่น (เล่น 4 คน = 1ขีด , เล่น 2 คน = 2 ขีด)/เกมส์
                                             $count_match_sum = 0;
                                             $sum_cal_court = 0;
+                                            $sum_cal_bad = 0;
+                                            $sum_cal_all = 0;
+                                            $sum_all = 0;
+                                            $sum_member_day=0;
+                                            $court_bufe=0;
                                             $data_member = $memberObj->getMemberByDateUser($_SESSION['date'],$_SESSION['b_u_id']);
                                             foreach($data_member as $d_m){
                                                 $i++;
@@ -204,8 +373,7 @@
                                                 $count_match = 0;
                                                 // เก็บจำนวนที่ใช้คำนวน 4/จำนวนผู้เล่นแต่ละแมท 4 คน = 1, 2 คน = 2
                                                 $count_match_i=0;
-                                                
-                                                // print_r($data_match);
+                                                $count_bad_i=0;
                                                 foreach($data_match as $d_ma){
                                                     $count_match++;
                                                     $sql ="
@@ -213,36 +381,52 @@
                                                         from tb_data_match 
                                                         where dm_id = '{$d_ma['dm_id']}'
                                                     ";
-                                                    // echo $sql."<br>";
+                                                    
                                                     // จำนวน คน ในแมทนี้
                                                     $count_member = $matchObj->countSQL($sql);
-                                                    // echo $count_member;
-                                                    $count_match_i += 4/$count_member;
-                                                    // echo "->".$count_match_i.",";
+                                                    // ขีด แมท และ ลูกแบด
+                                                    $count_match_i = 1;
+                                                    $sql_bad = $matchObj->countSQL("select * from tb_bad where b_id='{$d_ma['b_id']}'");
+                                                    for($j=1;$j<=$sql_bad;$j++){
+                                                        $count_bad_i += (4/$count_member);
+                                                    }
                                                     
                                                 }
+                                                $sum_member_day +=$count_match_i;
                                                 $count_match_sum +=$count_match_i;
-                                                // echo "<br>";
-                                                $cal_court = number_format($count_match_i*$_POST['c_court']/($_POST['n_match']*4),2);
+                                                // $cal_court ค่าคอร์ด
+                                                $cal_court = number_format($_POST['c_court']/$count_member_all,2);
+                                                $cal_bad = number_format($count_bad_i*($_POST['c_bad']/4),2);
+                                                $cal_all = number_format($cal_court+$cal_bad,2);
                                                 $sum_cal_court += $cal_court;
+                                                $sum_cal_bad += $cal_bad;
+                                                $sum_cal_all += $cal_all;
                                                 echo "
                                                 <tr>
                                                     <td>{$i}</td>
                                                     <td>{$d_m['m_name']}</td>
                                                     <td class='text-end'>{$cal_court}</td>
-                                                    <td class='text-end'>{$count_match}</td>
-                                                    <td class='text-end'>{}</td>
+                                                    <td class='text-end'>{$cal_bad}({$count_bad_i})</td>
+                                                    <td class='text-end'>{$cal_all}</td>
                                                 </tr>
                                                 ";
+                                                
                                             }
+                                           
                                             echo "
                                                 <tr>
                                                     <th scope='row'></th>
                                                     <th>รวม</th>
                                                     <th class='text-end'>{$sum_cal_court}</th>
-                                                    <th class='text-end'>{}</th>
-                                                    <th class='text-end'>{}</th>
+                                                    <th class='text-end'>{$sum_cal_bad}</th>
+                                                    <th class='text-end'>{$sum_cal_all}</th>
                                                 </tr>
+                                            ";
+                                            
+                                            $court_bufe=number_format($_POST['c_court']/$count_member_all,2);
+                                            echo "
+                                            <br>
+                                            <p>ค่าสนามคนละ {$court_bufe} บาท</p>
                                             ";
                                         }
                                     ?>
