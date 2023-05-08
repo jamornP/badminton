@@ -109,7 +109,7 @@
                         </ol>
                     </div>
                     <div class="form-group mt-2">
-                        <label for="" class="text-primary">ลูกแบด <b class="text-danger">กรณีที่ใช้ลูกเดิมให้ใส่ "-"</b></label>
+                        <label for="" class="text-primary">ลูกแบด <b class="text-danger">กรณีที่ใช้ลูกซ่อมให้ใส่ "-"</b></label>
                         <ol>
                             <li>
                                 <div class="d-flex mb-2">
@@ -164,7 +164,7 @@
                                         echo $i.". ";
                                         echo "
                                         {$dm['m_name']}
-                                        ";
+                                        "."  <a class='' data-bs-toggle='modal' data-bs-target='#exampleModal2' data-bs-whatever='{$dm['id']}-{$dm['m_name']}'>แก้ไข</a>";
                                         echo "<br>";
                                     }
                                     
@@ -180,9 +180,11 @@
                                         echo "<br>";
                                     }
                                     echo"</td>
-                                    <td> <button type='button' class='btn btn-primary btn-sm' data-bs-toggle='modal' data-bs-target='#exampleModal' data-bs-whatever='{$db['b_id']}'>+</button></td>
+                                    <td> <button type='button' class='btn btn-primary btn-sm' data-bs-toggle='modal' data-bs-target='#exampleModal' data-bs-whatever='{$match['b_id']}'>+</button></td>
+                                    
                                 </tr>
                             ";
+
                         }
                     ?>
                     
@@ -196,7 +198,7 @@
         ?>
        
         <br><br><br>
-
+        <!-- เพิ่มลูก -->
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -213,7 +215,7 @@
                                 <input type="hidden" class="form-control" id="recipient-name" name="court" value="<?php echo $_GET['court'];?>">
                             
                             <div class="mb-3">
-                                <label for="b_name" class="col-form-label">ลูกแบด:</label>
+                                <label for="b_name" class="col-form-label">ลูกแบด <b class="text-danger">กรณีที่ใช้ลูกซ่อมให้ใส่ "-"</b>:</label>
                                 <input type="text" class="form-control" id="b_name" placeholder="ลูกที่" name="b_name" required>
                             </div>
                             
@@ -221,6 +223,51 @@
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                             <button type="submit" class="btn btn-primary" name="add_bad">เพิ่ม</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- แก้ไข -->
+        <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">ผู้เล่น สนาม <?php echo $_GET['court'];?></h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form action="edit.php" method="POST">
+                        <div class="modal-body">
+                            
+                            <div class="mb-3">
+                                <!-- <label for="recipient-name" class="col-form-label">ผู้เล่นเก่า: </label> -->
+                                <input type="hidden" class="form-control" id="recipient-name" name="id">
+                                <input type="hidden" class="form-control" id="recipient-name" name="c_id" value="<?php echo $_GET['c_id'];?>">
+                                <input type="hidden" class="form-control" id="recipient-name" name="court" value="<?php echo $_GET['court'];?>">
+                            </div>
+                            <div class="mb-3">
+                                <label for="recipient-name" class="col-form-label">ผู้เล่นใหม่:</label>
+                                <select class="form-select" aria-label="Default select example" name="m_id" required>
+                                    <?php
+                                        $members = $memberObj->getMemberByDateUser($_SESSION['date'],$_SESSION['b_u_id']);
+                                        foreach($members as $m){
+                                            // $selected =($m['m_id']==$match['m_id']?"selected":"");
+                                            echo "
+                                            <option value='{$m['m_id']}' >{$m['m_name']}</option>
+                                            ";
+                                        }
+                                    ?>
+                                </select>
+                            </div>
+                            <!-- <div class="mb-3">
+                                <label for="message-text" class="col-form-label">Message:</label>
+                                <textarea class="form-control" id="message-text"></textarea>
+                            </div> -->
+                            
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">save</button>
                         </div>
                     </form>
                 </div>
@@ -317,6 +364,29 @@
         modalBodyInput.value = recipient
         // document.getElementById("b_name").focus();
         
+        })
+        
+    </script>
+    <script>
+        var exampleModal = document.getElementById('exampleModal2')
+        exampleModal.addEventListener('show.bs.modal', function (event) {
+        // Button that triggered the modal
+        var button = event.relatedTarget
+        // Extract info from data-bs-* attributes
+        var recipient = button.getAttribute('data-bs-whatever')
+        var res = recipient.split("-",1);
+        var res2 = recipient.split("-",2);
+        var name1 = res2[1]    
+        console.log(name1)
+        // If necessary, you could initiate an AJAX request here
+        // and then do the updating in a callback.
+        //
+        // Update the modal's content.
+        var modalTitle = exampleModal.querySelector('.modal-title')
+        var modalBodyInput = exampleModal.querySelector('.modal-body input')
+
+        modalTitle.textContent = 'สนาม <?php echo $_GET['court'];?>'+' ผู่เล่นเก่า ' + name1
+        modalBodyInput.value = res;
         })
     </script>
     

@@ -7,7 +7,9 @@ $matchObj = new Matchs;
         print_r($_GET);
         switch ($_GET['action']){
             case  "court" :
-                $sql = "DELETE FROM tb_court WHERE c_id ={$_GET['c_id']}";
+              
+  
+        $sql = "DELETE FROM tb_court WHERE c_id ={$_GET['c_id']}";
                 $ck = $matchObj->delSQL($sql);
                 if($ck){
                     echo "  

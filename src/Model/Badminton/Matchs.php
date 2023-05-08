@@ -118,6 +118,16 @@ class Matchs extends DbBadminton
       }
       return $count;
   }
+  public function updateMemberById($data){
+    $sql ="
+      UPDATE tb_data_match 
+      SET m_id=:m_id 
+      WHERE id=:id
+    ";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute($data);
+    return true;
+  }
 
   //bad
   public function addBad($data)

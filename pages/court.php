@@ -35,7 +35,7 @@
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">สนาม</th>
-                            <th scope="col">แก้ไข</th>
+                            <!-- <th scope="col">แก้ไข</th> -->
                         </tr>
                     </thead>
                     <tbody>
@@ -49,12 +49,12 @@
                                     <tr>
                                         <th scope='row'>{$i}</th>
                                         <td>{$c['c_name']}</td>
-                                        <td><a href='/badminton/pages/del.php?action=court&c_id={$c['c_id']}'>ลบ</a></td>
+                                        
                                     </tr>
                                 ";
                             }
                         ?>
-                        
+                        <!-- <td><a href='/badminton/pages/del.php?action=court&c_id={$c['c_id']}'>ลบ</a></td> -->
 
                     </tbody>
                 </table>

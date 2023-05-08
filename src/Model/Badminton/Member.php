@@ -33,6 +33,17 @@ class Member extends DbBadminton
     $stmt->execute($data);
     return true;
   }
+  public function getMemberById($id)
+  {
+    $sql ="
+        SELECT * 
+        FROM tb_member 
+        WHERE m_id = {$id} 
+    ";
+    $stmt = $this->pdo->query($sql);
+    $data = $stmt->fetchAll();
+    return $data[0];
+  }
   public function getMemberByDateUser($date,$u_id)
   {
     $sql ="
