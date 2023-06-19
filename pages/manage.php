@@ -208,11 +208,9 @@
                     </div>
                     <form action="bad.php" method="POST">
                         <div class="modal-body">
-                            
-                            
-                                <input type="hidden" class="form-control" id="recipient-name" name="b_id">
-                                <input type="hidden" class="form-control" id="recipient-name" name="c_id" value="<?php echo $_GET['c_id'];?>">
-                                <input type="hidden" class="form-control" id="recipient-name" name="court" value="<?php echo $_GET['court'];?>">
+                                <input type="hidden" class="form-control" id="recipient-name1" name="b_id" value ="">
+                                <input type="hidden" class="form-control" id="recipient-name2" name="c_id" value="<?php echo $_GET['c_id'];?>">
+                                <input type="hidden" class="form-control" id="recipient-name3" name="court" value="<?php echo $_GET['court'];?>">
                             
                             <div class="mb-3">
                                 <label for="b_name" class="col-form-label">ลูกแบด <b class="text-danger">กรณีที่ใช้ลูกซ่อมให้ใส่ "-"</b>:</label>
@@ -274,7 +272,13 @@
             </div>
         </div>
     </div>
-   
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
     <?php require $_SERVER['DOCUMENT_ROOT'] . "/badminton/components/script.php"; ?>
     <script type="text/javascript">
         $(function() {
@@ -352,6 +356,9 @@
         var button = event.relatedTarget
         // Extract info from data-bs-* attributes
         var recipient = button.getAttribute('data-bs-whatever')
+        console.log(recipient)
+        var inp = document.getElementById('recipient-name1')
+        inp.value = recipient;
         // If necessary, you could initiate an AJAX request here
         // and then do the updating in a callback.
         //
@@ -360,7 +367,7 @@
         var modalBodyInput = exampleModal.querySelector('.modal-body input')
         
 
-        // modalTitle.textContent = 'New message to ' + recipient
+         modalTitle.textContent = 'New message to ' + recipient
         modalBodyInput.value = recipient
         // document.getElementById("b_name").focus();
         
@@ -378,6 +385,7 @@
         var res2 = recipient.split("-",2);
         var name1 = res2[1]    
         console.log(name1)
+        
         // If necessary, you could initiate an AJAX request here
         // and then do the updating in a callback.
         //

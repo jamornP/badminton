@@ -84,7 +84,13 @@
             
             </div>
         </div>
-
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
     </div>
 
     <?php require $_SERVER['DOCUMENT_ROOT'] . "/badminton/components/script.php"; ?>

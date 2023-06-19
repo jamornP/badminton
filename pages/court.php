@@ -129,6 +129,13 @@
     ?>
 
     </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
 
     <?php require $_SERVER['DOCUMENT_ROOT'] . "/badminton/components/script.php"; ?>
     <script type="text/javascript">
