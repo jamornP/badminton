@@ -1,3 +1,4 @@
+<?php session_start();?>
 <!DOCTYPE html>
 <html>
 
@@ -50,7 +51,7 @@
                                 $bad_count += $bsum;
                             }
                             foreach($mem as $m){
-                                $matchM = $matchObj->countSQL("select * from tb_data_match where m_id={$m['m_id']}");
+                                $matchM = $matchObj->countMember($_SESSION['date'],$m['m_id']);
                                 $dataB = $matchObj->getSQL("select ma.b_id 
                                 from tb_data_match as dm
                                 left join tb_match as ma on ma.dm_id = dm.dm_id

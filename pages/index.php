@@ -1,3 +1,4 @@
+<?php session_start();?>
 <!DOCTYPE html>
 <html>
 
@@ -27,11 +28,18 @@
             // print_r($_POST);
             $ckadd = $dateObj->addDate($_POST);
             if ($ckadd) {
-                echo "  
-                    <script type='text/javascript'>
-                        setTimeout(function(){location.href='/badminton/pages/index.php'} , 1000);
-                    </script>
-                ";
+                $data['c_name']="court_1";
+                $data['c_date']=$_POST['d_date'];
+                $data['u_id']=$_SESSION['b_u_id'];
+                $ckcourt = $courtObj->addCourt($data);
+                if($ckcourt){
+                    echo "  
+                        <script type='text/javascript'>
+                            setTimeout(function(){location.href='/badminton/pages/index.php'} , 1000);
+                        </script>
+                    ";
+                }
+                
             }
         }
 
@@ -61,7 +69,7 @@
                                     <tr>
                                         <th scope='row'>{$i}</th>
                                         <td>{$dateshow}</td>
-                                        <td><a href='/badminton/pages/court.php?date={$d['d_date']}'>ดำเนินการต่อ</a></td>
+                                        <td><a href='/badminton/pages/member.php?date={$d['d_date']}'>ดำเนินการต่อ</a></td>
                                     </tr>
                                 ";
                             }
@@ -76,7 +84,7 @@
                     <div class="d-flex mb-2">
                     
                         <div class="">
-                        <input type="text" id="datepicker" class="form-control" name="d_date" required autocomplete="off" value="">
+                        <input type="text" id="datepicker" class="form-control" name="d_date" required autocomplete="off" value="<?php echo date('Y-m-d');?>">
                         </div>
                         <button type="submit" class="btn btn-success mx-2 text-white" name="add">เพิ่ม</button>
                     </div>

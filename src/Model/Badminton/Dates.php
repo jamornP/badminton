@@ -9,7 +9,11 @@ class Dates extends DbBadminton
 {
   public function addDate($data)
   {
-    $sql = "
+      $ck = $this->ckDateUser($data);
+    if($ck){
+      return false;
+    }else{
+      $sql = "
         INSERT INTO tb_date (     
           d_date,
           u_id
@@ -17,10 +21,12 @@ class Dates extends DbBadminton
           :d_date,
           :u_id
         )    
-    ";
-    $stmt = $this->pdo->prepare($sql);
-    $stmt->execute($data);
-    return $this->pdo->lastInsertId();
+      ";
+      $stmt = $this->pdo->prepare($sql);
+      $stmt->execute($data);
+      return true;
+    }
+    
   }
   public function getDateByUser($u_id)
   {
@@ -33,6 +39,21 @@ class Dates extends DbBadminton
     $stmt = $this->pdo->query($sql);
     $data = $stmt->fetchAll();
     return $data;
+  }
+  public function ckDateUser($data){
+    $sql = "
+      SELECT *
+      FROM tb_date
+      WHERE u_id = :u_id AND d_date = :d_date
+    ";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute($data);
+    $data = $stmt->fetchAll();
+    if(count($data)>0){
+      return true;
+    }else{
+      return false;
+    }
   }
   
 }

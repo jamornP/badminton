@@ -1,3 +1,4 @@
+<?php session_start();?>
 <!DOCTYPE html>
 <html>
 
@@ -18,6 +19,11 @@
 </head>
 
 <body class="font-sriracha">
+    <?php
+    if(isset($_GET['date'])) {
+        $_SESSION['date'] = $_GET['date'];
+    }
+    ?>
     <?php require $_SERVER['DOCUMENT_ROOT'] . "/badminton/components/nav.php"; ?>
     <?php require $_SERVER['DOCUMENT_ROOT'] . "/badminton/components/botton.php"; ?>
     <div class="container mt-5">
@@ -46,7 +52,7 @@
                                     <tr>
                                         <th scope='row'>{$i}</th>
                                         <td>{$c['m_name']}</td>
-                                        <td><a href='/badminton/pages/del.php?action=member&m_id={$c['m_id']}'>ลบ</a></td>
+                                        <td><a href='/badminton/pages/del.php?del=del&m_id={$c['m_id']}'>ลบ</a></td>
                                     </tr>
                                 ";
                             }

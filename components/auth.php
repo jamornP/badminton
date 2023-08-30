@@ -1,5 +1,4 @@
 <?php
-    session_start();
     if(isset($_SESSION['b_login'])){
         if(!$_SESSION['b_login']){
             echo "  

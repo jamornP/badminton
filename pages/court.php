@@ -117,7 +117,7 @@
             $_POST['c_date']=$_SESSION['date'];
             $_POST['u_id']=$_SESSION['b_u_id'];
             print_r($_POST);
-            $ck = $courtObj->addCourt($_POST);
+            // $ck = $courtObj->addCourt($_POST);
             if ($ck) {
                 echo "  
                     <script type='text/javascript'>

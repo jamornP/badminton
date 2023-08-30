@@ -68,7 +68,42 @@ class Matchs extends DbBadminton
       $data = $stmt->fetchAll();
       return $data;
   }
-
+  public function delMatch($id){
+    $sql ="
+      DELETE FROM tb_match WHERE ma_id='{$id}'
+    ";
+    $stmt = $this->pdo->query($sql);
+    if($stmt){
+      return true;
+    }else{
+      return false;
+    }
+    
+  }
+  public function delDataMatch($id){
+    $sql ="
+      DELETE FROM tb_data_match WHERE dm_id='{$id}'
+    ";
+    $stmt = $this->pdo->query($sql);
+    if($stmt){
+      return true;
+    }else{
+      return false;
+    }
+    
+  }
+  public function delBad($id){
+    $sql ="
+      DELETE FROM tb_bad WHERE b_id='{$id}'
+    ";
+    $stmt = $this->pdo->query($sql);
+    if($stmt){
+      return true;
+    }else{
+      return false;
+    }
+    
+  }
 
   // match data
   public function getMatchDataById($dm_id)
@@ -128,6 +163,16 @@ class Matchs extends DbBadminton
     $stmt->execute($data);
     return true;
   }
+  public function countMember($date,$m_id){
+    $sql ="
+      SELECT * 
+      FROM tb_data_match 
+      WHERE dm_date = '{$date}' AND m_id = '{$m_id}'
+    ";
+    $stmt = $this->pdo->query($sql);
+    $data = $stmt->fetchAll();
+    return count($data);
+  }
 
   //bad
   public function addBad($data)
@@ -146,6 +191,16 @@ class Matchs extends DbBadminton
     $stmt = $this->pdo->prepare($sql);
     $stmt->execute($data);
     return $this->pdo->lastInsertId();
+  }
+  public function updateBad($data){
+    $sql = "
+      UPDATE tb_bad SET 
+        b_name=:b_name 
+      WHERE id=:id
+    ";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute($data);
+    return true;
   }
   public function countBad($b_id){
     $sql = "

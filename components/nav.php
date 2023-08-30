@@ -1,6 +1,4 @@
-<?php
-session_start();
-?>
+
 <?php require $_SERVER['DOCUMENT_ROOT'] . "/badminton/components/auth.php"; ?>
 <?php require $_SERVER['DOCUMENT_ROOT'] . "/badminton/function/function.php"; ?>
 <?php require $_SERVER['DOCUMENT_ROOT'] . "/badminton/vendor/autoload.php"; ?>
