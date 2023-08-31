@@ -47,7 +47,7 @@
                             $match_bad = $matchObj->getSQL("select * from tb_match where u_id={$_SESSION['b_u_id']} and ma_date='{$_SESSION['date']}'");
                             $bad_count = 0;
                             foreach($match_bad as $mb){
-                                $bsum = $matchObj->countSQL("select * from tb_bad where b_id='{$mb['b_id']}'");
+                                $bsum = $matchObj->countSQL("select * from tb_bad where b_id='{$mb['b_id']}' AND b_name <>'-'");
                                 $bad_count += $bsum;
                             }
                             foreach($mem as $m){
@@ -58,7 +58,7 @@
                                 where dm.m_id={$m['m_id']}");
                                 $bad = 0;
                                 foreach($dataB as $b){
-                                    $matchB = $matchObj->countSQL("select * from tb_bad where b_id='{$b['b_id']}'");
+                                    $matchB = $matchObj->countSQL("select * from tb_bad where b_id='{$b['b_id']}' AND b_name <>'-'");
                                     $bad+=$matchB;
                                 }
                                 $sumMatch+=$matchM;
@@ -138,6 +138,14 @@
                                         <th scope="col" class='text-end'>รวม</th>
                                     </tr>
                                 </thead>
+                                <form action="database.php" method="POST">
+                                    <input type="hidden" name="bi_date" id="" value="<?php echo $_SESSION['date'];?>">    
+                                    <input type="hidden" name="bi_court" id="" value="<?php echo $_POST['c_court'];?>">    
+                                    <input type="hidden" name="bi_game" id="" value="<?php echo $_POST['n_match'];?>">    
+                                    <input type="hidden" name="bad_one" id="" value="<?php echo $_POST['c_bad'];?>">    
+                                    <input type="hidden" name="bad_count" id="" value="<?php echo $_POST['n_bad'];?>">    
+                                    <input type="hidden" name="bad_sum" id="" value="<?php echo $sum;?>">  
+                                    <input type="hidden" name="u_id" id="" value="<?php echo $_SESSION['b_u_id'];?>">  
                                 <tbody>
                                     <?php
                                         // $_POST['cal']=2;
@@ -182,7 +190,7 @@
                                                     $count_member = $matchObj->countSQL($sql);
                                                     // ขีด แมท และ ลูกแบด
                                                     $count_match_i = 1;
-                                                    $sql_bad = $matchObj->countSQL("select * from tb_bad where b_id='{$d_ma['b_id']}'");
+                                                    $sql_bad = $matchObj->countSQL("select * from tb_bad where b_id='{$d_ma['b_id']}' AND b_name <>'-'");
                                                     for($j=1;$j<=$sql_bad;$j++){
                                                         $count_bad_i += (4/$count_member);
                                                     }
@@ -259,7 +267,7 @@
                                                     $count_member = $matchObj->countSQL($sql);
                                                     // ขีด แมท และ ลูกแบด
                                                     $count_match_i += 4/$count_member;
-                                                    $sql_bad = $matchObj->countSQL("select * from tb_bad where b_id='{$d_ma['b_id']}'");
+                                                    $sql_bad = $matchObj->countSQL("select * from tb_bad where b_id='{$d_ma['b_id']}' AND b_name <>'-'");
                                                     for($j=1;$j<=$sql_bad;$j++){
                                                         $count_bad_i += (4/$count_member);
                                                     }
@@ -313,7 +321,7 @@
                                                 where dm.m_id={$m['m_id']}");
                                                 $bad = 0;
                                                 foreach($dataB as $b){
-                                                    $matchB = $matchObj->countSQL("select * from tb_bad where b_id='{$b['b_id']}'");
+                                                    $matchB = $matchObj->countSQL("select * from tb_bad where b_id='{$b['b_id']}' AND b_name <>'-'");
                                                     $bad+=$matchB;
                                                 }
                                                 
@@ -361,7 +369,9 @@
                                             $sum_member_day=0;
                                             $court_bufe=0;
                                             $data_member = $memberObj->getMemberByDateUser($_SESSION['date'],$_SESSION['b_u_id']);
+                                           
                                             foreach($data_member as $d_m){
+
                                                 $i++;
                                                 $sql ="
                                                     select ma.dm_id,ma.b_id,dm.* 
@@ -387,7 +397,7 @@
                                                     $count_member = $matchObj->countSQL($sql);
                                                     // ขีด แมท และ ลูกแบด
                                                     $count_match_i = 1;
-                                                    $sql_bad = $matchObj->countSQL("select * from tb_bad where b_id='{$d_ma['b_id']}'");
+                                                    $sql_bad = $matchObj->countSQL("select * from tb_bad where b_id='{$d_ma['b_id']}' AND b_name <>'-'");
                                                     for($j=1;$j<=$sql_bad;$j++){
                                                         $count_bad_i += (4/$count_member);
                                                     }
@@ -405,15 +415,15 @@
                                                 echo "
                                                 <tr>
                                                     <td>{$i}</td>
-                                                    <td>{$d_m['m_name']}</td>
-                                                    <td class='text-end'>{$cal_court}</td>
-                                                    <td class='text-end'>{$cal_bad}({$count_bad_i})</td>
-                                                    <td class='text-end'>{$cal_all}</td>
+                                                    <td>{$d_m['m_name']}<input type='hidden' name='m_name[{$i}]' id='' value='{$d_m['m_name']}'> </td>
+                                                    <td class='text-end'>{$cal_court}<input type='hidden' name='court_cal[{$i}]' id='' value='{$cal_court}'></td>
+                                                    <td class='text-end'>{$cal_bad}({$count_bad_i})<input type='hidden' name='bad_cal[{$i}]' id='' value='{$cal_bad}'><input type='hidden' name='bad_m[{$i}]' id='' value='{$count_bad_i}'></td>
+                                                    <td class='text-end'>{$cal_all}<input type='hidden' name='bi_sum[{$i}]' id='' value='{$cal_all}'></td>
                                                 </tr>
                                                 ";
                                                 
                                             }
-                                           
+                                        
                                             echo "
                                                 <tr>
                                                     <th scope='row'></th>
@@ -429,11 +439,21 @@
                                             <br>
                                             <p>ค่าสนามคนละ {$court_bufe} บาท</p>
                                             ";
+                                               
                                         }
                                     ?>
                                     
 
                                 </tbody>
+                                <?php
+                                if($_POST['cal']==4){
+                                    echo "
+                                        <button type='submit' class='btn btn-danger text-white' name='adddatabase'>บันทึก และ ส่ง line</button>
+                                    ";
+                                }
+                                ?>
+                                
+                                </form>
                             </table>
                         </div>
                     </div>
