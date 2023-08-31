@@ -183,11 +183,11 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th scope="col">เกมส์ที่</th>
+                            <th scope="col">ที่</th>
                             <th scope="col">ผู้เล่น</th>
                             <th scope="col">ลูก</th>
                             <th scope="col">เพิ่มลูก</th>
-                            <th scope="col">จัดการ</th>
+                            <th scope="col"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -207,7 +207,7 @@
                                         echo $i.". ";
                                         echo "
                                         {$dm['m_name']}
-                                        "."  <a class='' data-bs-toggle='modal' data-bs-target='#exampleModal2' data-bs-whatever='{$dm['id']}-{$dm['m_name']}'>แก้ไข</a>";
+                                        "."  <a class='fs-12' data-bs-toggle='modal' data-bs-target='#exampleModal2' data-bs-whatever='{$dm['id']}-{$dm['m_name']}'>edit</a>";
                                         echo "<br>";
                                     }
                                     
@@ -219,12 +219,12 @@
                                         echo $i.". ";
                                         echo "
                                         {$db['b_name']} 
-                                        "."  <a class='' data-bs-toggle='modal' data-bs-target='#exampleModal3' data-bs-whatever='{$db['id']}'>แก้ไข</a>";
+                                        "."  <a class='fs-12' data-bs-toggle='modal' data-bs-target='#exampleModal3' data-bs-whatever='{$db['id']}'>edit</a>";
                                         echo "<br>";
                                     }
                                     echo"</td>
                                     <td> <button type='button' class='btn btn-primary btn-sm' data-bs-toggle='modal' data-bs-target='#exampleModal' data-bs-whatever='{$match['b_id']}'>+</button></td>
-                                    <td><a href='/badminton/pages/delmatch.php?del=del&ma_id={$match['ma_id']}&dm_id={$match['dm_id']}&b_id={$match['b_id']}&c_id={$_SESSION['c_id']}&court={$_SESSION['court']}'>ลบแมท</a></td>
+                                    <td><a href='/badminton/pages/delmatch.php?del=del&ma_id={$match['ma_id']}&dm_id={$match['dm_id']}&b_id={$match['b_id']}&c_id={$_SESSION['c_id']}&court={$_SESSION['court']}' class='fs-12'>del</a></td>
                                 </tr>
                             ";
 
