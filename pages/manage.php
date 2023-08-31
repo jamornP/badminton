@@ -43,7 +43,13 @@
                         $dataM['dm_date']=$_SESSION['date'];
                         // echo "<br>";
                         // print_r($dataM);
-                        $ckDA = $matchObj->addMatchData($dataM);
+                        if($_POST['member'][$key]=="0"){
+                            // echo $_POST['member'][$key];
+                        }else{
+                            // echo $num.$_POST['member'][$key];
+                            $ckDA = $matchObj->addMatchData($dataM);
+                        }
+                        
                     }
 
                 }
@@ -122,7 +128,7 @@
                                                                 ";
                                                             }
                                                         ?>
-                                            <option selected>---เลือกผู้เล่น---</option>
+                                            <option selected value="0">---เลือกผู้เล่น---</option>
                                         </select>
                                     </div>
                                     <a class="btn btn-success mx-2 text-white mbtn-add">เพิ่ม</a>
