@@ -102,7 +102,7 @@
                             <select class="form-select" aria-label="Default select example" name="cal">
                                 <option selected>แบบคำนวน</option>
                                 <option value="4">บุฟเฟ่ต์สนาม</option>
-                                <option value="2">ตามจริง</option>
+                                <!-- <option value="2">ตามจริง</option> -->
                                 <!-- <option value="3">ไม่แยกเดี๋ยว</option> -->
                             </select>
                         </div>

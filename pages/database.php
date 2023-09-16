@@ -51,7 +51,7 @@ if(isset($_POST['adddatabase'])){
                     $data_bi['bad_cal']=$_POST['bad_cal'][$i];
                     $data_bi['bad_m']=$_POST['bad_m'][$i];
                     $data_bi['bi_sum']=$_POST['bi_sum'][$i];
-                    $dataLine .= $i.". ".$data_bi['m_name']." = ".$data_bi['bi_sum']." บาท"."\n";
+                    $dataLine .= $i.". ".$data_bi['m_name']." = ".ceil($data_bi['bi_sum'])." บาท"."\n";
                     echo "<pre>";
                     print_r($data_bi);
                     echo "</pre>";
@@ -60,7 +60,7 @@ if(isset($_POST['adddatabase'])){
                 if($ck){
                     $da = datethai($data['bi_date']);
                     $p = "Link : http://161.246.23.21/badminton/pages/show1.php?bi_id={$dataB['bi_id']}";
-                    $dataL ="รายละเอียด บิล วันที่ ".$da."\n";
+                    $dataL ="บิลวันที่ ".$da."\n";
                     $dataL .= $dataLine."\n".$p;
                     echo $dataL;
                     SentLineBasic("OchohMJUJOsdFvvZJKBUuDaOrj5c6dkhvo6HticK3PA",$dataL);
@@ -107,7 +107,7 @@ if(isset($_POST['adddatabase'])){
                 $data_bi['bad_m']=$_POST['bad_m'][$i];
                 $data_bi['bi_sum']=$_POST['bi_sum'][$i];
                 $ck = $matchObj->addDataBill($data_bi);
-                $dataLine .= $i.". ".$data_bi['m_name']." = ".$data_bi['bi_sum']." บาท"."\n";
+                $dataLine .= $i.". ".$data_bi['m_name']." = ".ceil($data_bi['bi_sum'])." บาท"."\n";
                 echo "<pre>";
                 print_r($data_bi);
                 echo "</pre>";
@@ -115,7 +115,7 @@ if(isset($_POST['adddatabase'])){
             if($ck){
                 $da = datethai($data['bi_date']);
                 $p = "Link : http://161.246.23.21/badminton/pages/show1.php?bi_id={$bi_id}";
-                $dataL ="รายละเอียด บิล วันที่ ".$da."\n";
+                $dataL ="บิลวันที่ ".$da."\n";
                 $dataL .= $dataLine."\n".$p;
                 echo $dataL;
                 SentLineBasic("OchohMJUJOsdFvvZJKBUuDaOrj5c6dkhvo6HticK3PA",$dataL);
