@@ -50,6 +50,7 @@ class Member extends DbBadminton
         SELECT * 
         FROM tb_member 
         WHERE m_date = '{$date}' AND u_id = {$u_id} 
+        ORDER BY m_name
     ";
     $stmt = $this->pdo->query($sql);
     $data = $stmt->fetchAll();
