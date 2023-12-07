@@ -59,7 +59,7 @@ if(isset($_POST['adddatabase'])){
                 }
                 if($ck){
                     $da = datethai($data['bi_date']);
-                    $p = "Link : http://161.246.23.21/badminton/pages/show1.php?bi_id={$dataB['bi_id']}";
+                    $p = "Link : http://sport.science.kmitl.ac.th/badminton/pages/show1.php?bi_id={$dataB['bi_id']}";
                     $dataL ="บิลวันที่ ".$da."\n";
                     $dataL .= $dataLine."\n".$p;
                     echo $dataL;

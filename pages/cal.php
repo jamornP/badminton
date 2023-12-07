@@ -100,8 +100,8 @@
                         </div>
                         <div class="mx-2">
                             <select class="form-select" aria-label="Default select example" name="cal">
-                                <option selected>แบบคำนวน</option>
-                                <option value="4">บุฟเฟ่ต์สนาม</option>
+                                <!-- <option selected>แบบคำนวน</option> -->
+                                <option value="4" selected>บุฟเฟ่ต์สนาม</option>
                                 <!-- <option value="2">ตามจริง</option> -->
                                 <!-- <option value="3">ไม่แยกเดี๋ยว</option> -->
                             </select>
@@ -133,7 +133,7 @@
                                     <tr>
                                         <th scope="col">#</th>
                                         <th scope="col">ชื่อ</th>
-                                        <th scope="col" class='text-end'>เกมส์</th>
+                                        <th scope="col" class='text-end'>สนาม</th>
                                         <th scope="col" class='text-end'>ลูก</th>
                                         <th scope="col" class='text-end'>รวม</th>
                                     </tr>

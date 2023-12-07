@@ -14,14 +14,14 @@ $matchObj = new Matchs;
             echo "<br>";
             print_r($dataB);
             if($_POST['b_name']!="-"){
-            $ckB = $matchObj->addBad($dataB);
+                $ckB = $matchObj->addBad($dataB);
             }else{
                 $ckB = true;
             }
             if($ckB){
             echo "  
                 <script type='text/javascript'>
-                    setTimeout(function(){location.href='/badminton/pages/manage.php?c_id={$_POST['c_id']}&court={$_POST['court']}'} , 1);
+                    setTimeout(function(){location.href='/badminton/pages/manage.php'} , 1);
                 </script>
             ";
             }

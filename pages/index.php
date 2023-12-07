@@ -28,17 +28,17 @@
             // print_r($_POST);
             $ckadd = $dateObj->addDate($_POST);
             if ($ckadd) {
-                $data['c_name']="court_1";
-                $data['c_date']=$_POST['d_date'];
-                $data['u_id']=$_SESSION['b_u_id'];
-                $ckcourt = $courtObj->addCourt($data);
-                if($ckcourt){
+            //     $data['c_name']="court_1";
+            //     $data['c_date']=$_POST['d_date'];
+            //     $data['u_id']=$_SESSION['b_u_id'];
+            //     $ckcourt = $courtObj->addCourt($data);
+            //     if($ckcourt){
                     echo "  
                         <script type='text/javascript'>
                             setTimeout(function(){location.href='/badminton/pages/index.php'} , 1000);
                         </script>
                     ";
-                }
+                // }
                 
             }
         }
@@ -48,6 +48,16 @@
         <div class="card">
             <h5 class="card-header">ขั้นตอนที่ 1</h5>
             <div class="card-body">
+                <form action="" method="POST">
+                    <label for="datepicker">เลือกวันที่</label>
+                    <div class="d-flex mb-2">
+                    
+                        <div class="">
+                        <input type="text" id="datepicker" class="form-control" name="d_date" required autocomplete="off" value="<?php echo date('Y-m-d');?>">
+                        </div>
+                        <button type="submit" class="btn btn-success mx-2 text-white" name="add">เพิ่ม</button>
+                    </div>
+                </form>
                 <p class="">ข้อมูลวันที่</p>
                 <table class="table">
                     <thead>
@@ -79,16 +89,7 @@
                     </tbody>
                 </table>
                 <hr>
-                <form action="" method="POST">
-                    <label for="datepicker">เลือกวันที่</label>
-                    <div class="d-flex mb-2">
-                    
-                        <div class="">
-                        <input type="text" id="datepicker" class="form-control" name="d_date" required autocomplete="off" value="<?php echo date('Y-m-d');?>">
-                        </div>
-                        <button type="submit" class="btn btn-success mx-2 text-white" name="add">เพิ่ม</button>
-                    </div>
-                </form>
+                
             
             </div>
         </div>

@@ -12,14 +12,12 @@ class Matchs extends DbBadminton
     $sql = "
         INSERT INTO tb_match (     
             ma_date,
-            c_id,
             ma_num,
             dm_id,
             b_id,
             u_id
         ) VALUES (
             :ma_date,
-            :c_id,
             :ma_num,
             :dm_id,
             :b_id,
@@ -42,11 +40,11 @@ class Matchs extends DbBadminton
     $data = $stmt->fetchAll();
     return $data;
   }
-  public function getNumCourtMatch($date,$u_id,$c_id){
+  public function getNumCourtMatch($date,$u_id){
     $sql = "
       SELECT * 
       FROM tb_match
-      WHERE ma_date = '{$date}' AND u_id = {$u_id} AND c_id ={$c_id}
+      WHERE ma_date = '{$date}' AND u_id = {$u_id} 
       ";
       $stmt = $this->pdo->query($sql);
       $data = $stmt->fetchAll();
@@ -58,11 +56,12 @@ class Matchs extends DbBadminton
       }
       return $count;
   }
-  public function getCourtMatch($date,$u_id,$c_id){
+  // -----------------------------------------------------------------------------แสดงแมท manage.php
+  public function getCourtMatch($date,$u_id){
     $sql = "
       SELECT * 
       FROM tb_match
-      WHERE ma_date = '{$date}' AND u_id = {$u_id} AND c_id ={$c_id}
+      WHERE ma_date = '{$date}' AND u_id = {$u_id}
       ";
       $stmt = $this->pdo->query($sql);
       $data = $stmt->fetchAll();

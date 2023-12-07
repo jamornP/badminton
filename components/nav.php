@@ -37,19 +37,20 @@ if (isset($_SESSION['b_login']) and ($_SESSION['b_login'] == true)) {
             <li class='nav-item'>
                 <a class='nav-link'  href='/badminton/pages/index.php'>1.home</a>
             </li>
+           
             <li class='nav-item'>
-                <a class='nav-link '  href='/badminton/pages/court.php?date={$_SESSION['date']}'>2.สนาม</a>
+                <a class='nav-link' href='/badminton/pages/member.php?date={$_SESSION['date']}'>2.ผู้เล่น</a>
             </li>
             <li class='nav-item'>
-                <a class='nav-link' href='/badminton/pages/member.php'>3.ผู้เล่น</a>
+                <a class='nav-link' href='/badminton/pages/manage.php'>3.จัดแมท</a>
             </li>
             <li class='nav-item'>
-                <a class='nav-link' href='/badminton/pages/match.php'>4.จัดแมท</a>
-            </li>
-            <li class='nav-item'>
-                <a class='nav-link ' href='/badminton/pages/cal.php'>5.คำนวน</a>
+                <a class='nav-link ' href='/badminton/pages/cal.php'>4.คำนวน</a>
             </li>
             ";
+            //  <li class='nav-item'>
+            // <a class='nav-link ' href='/badminton/pages/court.php?date={$_SESSION['date']}'>2.สนาม</a>
+            // </li>
         if(isset($_SESSION['admin']) AND $_SESSION['admin']==true){
             echo "
             <li class='nav-item'>

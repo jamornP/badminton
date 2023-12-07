@@ -25,7 +25,6 @@
         if(isset($_POST['add'])){
             unset($_POST['add']);
             $dataA['ma_date']=$_POST['ma_date']; 
-            $dataA['c_id']=$_POST['c_id']; 
             $dataA['ma_num']=$_POST['ma_num']; 
             $dataA['u_id']=$_POST['u_id']; 
             $dataA['dm_id'] = uniqid();
@@ -70,7 +69,7 @@
                 if($ckA == true && $ckDA == true){
                     echo "  
                         <script type='text/javascript'>
-                            setTimeout(function(){location.href='/badminton/pages/manage.php?c_id={$_POST['c_id']}&court={$_POST['court']}'} , 1);
+                            setTimeout(function(){location.href='/badminton/pages/manage.php'} , 1);
                         </script>
                     ";
                     
@@ -85,11 +84,10 @@
         </div>
         <div class="card mt-2">
             <?php
-                $ma_num = $matchObj->getNumCourtMatch($_SESSION['date'],$_SESSION['b_u_id'],$_GET['c_id']);
-                $_SESSION['c_id']=$_GET['c_id'];
-                $_SESSION['court']=$_GET['court'];
+                $ma_num = $matchObj->getNumCourtMatch($_SESSION['date'],$_SESSION['b_u_id']);
+                // $_SESSION['court']=$_GET['court'];
             ?>
-            <h5 class="card-header">4. จัดแมท สนาม <span class="badge bg-danger"><?php echo $_GET['court'];?></span>
+            <h5 class="card-header">3. จัดแมท
             </h5>
             <div class="card-body">
                 <p>แมทที่ <?php echo $ma_num;?></p>
@@ -97,16 +95,12 @@
                     <div class="form-group mt-2">
                         <input type="hidden" class="form-control" id="" placeholder="" name="ma_date"
                             value="<?php echo $_SESSION['date'];?>">
-                        <input type="hidden" class="form-control" id="" placeholder="" name="c_id"
-                            value="<?php echo $_GET['c_id'];?>">
                         <input type="hidden" class="form-control" id="" placeholder="" name="ma_num"
                             value="<?php echo $ma_num;?>">
                         <!-- <input type="hidden" class="form-control" id="" placeholder="" name="dm_id" value="<?php //echo uniqid();?>">
                         <input type="hidden" class="form-control" id="" placeholder="" name="b_id" value="<?php //echo uniqid();?>"> -->
                         <input type="hidden" class="form-control" id="" placeholder="" name="u_id"
                             value="<?php echo $_SESSION['b_u_id'];?>">
-                        <input type="hidden" class="form-control" id="" placeholder="" name="court"
-                            value="<?php echo $_GET['court'];?>">
                     </div>
                     <div class="form-group mt-2">
                         <label for="" class="text-primary">ผู้เล่น</label>
@@ -158,8 +152,8 @@
                                         <input type="text" class="form-control" id="exampleFormControlInput2"
                                             placeholder="ลูกที่" name="b_name[]" required>
                                     </div>
-                                    <button class="btn btn-success mx-2 text-white bbtn-add">เพิ่ม</button>
-                                    <button class="btn btn-danger text-white bbtn-remove ">ลบ</button>
+                                    <!-- <button class="btn btn-success mx-2 text-white bbtn-add">เพิ่ม</button>
+                                    <button class="btn btn-danger text-white bbtn-remove ">ลบ</button> -->
                                 </div>
                             </li>
                         </ol>
@@ -175,7 +169,7 @@
         </div>
         <br>
         <?php 
-            $matchs = $matchObj->getCourtMatch($_SESSION['date'],$_SESSION['b_u_id'],$_GET['c_id']);
+            $matchs = $matchObj->getCourtMatch($_SESSION['date'],$_SESSION['b_u_id']);
             if(count($matchs)>0){                                    
         ?>
         <div class="card mt-2">
@@ -224,7 +218,7 @@
                                     }
                                     echo"</td>
                                     <td> <button type='button' class='btn btn-primary btn-sm' data-bs-toggle='modal' data-bs-target='#exampleModal' data-bs-whatever='{$match['b_id']}'>+</button></td>
-                                    <td><a href='/badminton/pages/delmatch.php?del=del&ma_id={$match['ma_id']}&dm_id={$match['dm_id']}&b_id={$match['b_id']}&c_id={$_SESSION['c_id']}&court={$_SESSION['court']}' class='fs-12'>del</a></td>
+                                    <td><a href='/badminton/pages/delmatch.php?del=del&ma_id={$match['ma_id']}&dm_id={$match['dm_id']}&b_id={$match['b_id']}' class='fs-12'>del</a></td>
                                 </tr>
                             ";
 
@@ -252,10 +246,6 @@
                     <form action="bad.php" method="POST">
                         <div class="modal-body">
                             <input type="hidden" class="form-control" id="recipient-name1" name="b_id" value="">
-                            <input type="hidden" class="form-control" id="recipient-name2" name="c_id"
-                                value="<?php echo $_GET['c_id'];?>">
-                            <input type="hidden" class="form-control" id="recipient-name3" name="court"
-                                value="<?php echo $_GET['court'];?>">
 
                             <div class="mb-3">
                                 <label for="b_name" class="col-form-label">ลูกแบด <b
@@ -278,19 +268,15 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">ผู้เล่น สนาม <?php echo $_GET['court'];?></h5>
+                        <h5 class="modal-title" id="exampleModalLabel">ผู้เล่น </h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <form action="edit.php" method="POST">
                         <div class="modal-body">
 
                             <div class="mb-3">
-                                <!-- <label for="recipient-name" class="col-form-label">ผู้เล่นเก่า: </label> -->
+                                <!-- <label for="recipient-name" class="col-form-label">ผู้เล่นเก่า: </label><label id="name_old"></label> -->
                                 <input type="hidden" class="form-control" id="recipient-name" name="id">
-                                <input type="hidden" class="form-control" id="recipient-name" name="c_id"
-                                    value="<?php echo $_GET['c_id'];?>">
-                                <input type="hidden" class="form-control" id="recipient-name" name="court"
-                                    value="<?php echo $_GET['court'];?>">
                             </div>
                             <div class="mb-3">
                                 <label for="recipient-name" class="col-form-label">ผู้เล่นใหม่:</label>
@@ -314,7 +300,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">save</button>
+                            <button type="submit" class="btn btn-primary" name="editMember">save</button>
                         </div>
                     </form>
                 </div>
@@ -333,10 +319,7 @@
 
                             <div class="mb-3">
                                 <!-- <label for="recipient-name" class="col-form-label">ผู้เล่นเก่า: </label> -->
-                                <input type="hidden" class="form-control" id="recipient-name" name="c_id"
-                                    value="<?php echo $_SESSION['c_id'];?>">
-                                <input type="hidden" class="form-control" id="recipient-name" name="court"
-                                    value="<?php echo $_SESSION['court'];?>">
+                               
                                 <input type="hidden" class="form-control" id="recipient-id" name="id">
                             </div>
                             <div class="mb-3">
@@ -467,44 +450,44 @@
     })
     </script>
     <script>
-    var exampleModal = document.getElementById('exampleModal2')
-    exampleModal.addEventListener('show.bs.modal', function(event) {
+    var exampleModal2 = document.getElementById('exampleModal2')
+    exampleModal2.addEventListener('show.bs.modal', function(event) {
         // Button that triggered the modal
-        var button = event.relatedTarget
+        var button2 = event.relatedTarget
         // Extract info from data-bs-* attributes
-        var recipient = button.getAttribute('data-bs-whatever')
-        var res = recipient.split("-", 1);
-        var res2 = recipient.split("-", 2);
-        var name1 = res2[1]
-        console.log(name1)
+        var recipient2 = button2.getAttribute('data-bs-whatever')
+        var res2 = recipient2.split("-", 1);
+        var res22 = recipient2.split("-", 2);
+        var name21 = res22[1]
+        console.log(name21)
 
         // If necessary, you could initiate an AJAX request here
         // and then do the updating in a callback.
         //
         // Update the modal's content.
-        var modalTitle = exampleModal.querySelector('.modal-title')
-        var modalBodyInput = exampleModal.querySelector('.modal-body input')
+        var modalTitle2 = exampleModal2.querySelector('.modal-title')
+        var modalBodyInput2 = exampleModal2.querySelector('.modal-body input')
 
-        modalTitle.textContent = 'สนาม <?php echo $_GET['court'];?>' + ' ผู่เล่นเก่า ' + name1
-        modalBodyInput.value = res;
+        modalTitle2.textContent = ' ผู้เล่นเก่า ' + name21
+        modalBodyInput2.value = res2;
     })
     </script>
     <script>
-    var exampleModal = document.getElementById('exampleModal3')
-    exampleModal.addEventListener('show.bs.modal', function(event) {
+    var exampleModal3 = document.getElementById('exampleModal3')
+    exampleModal3.addEventListener('show.bs.modal', function(event) {
         // Button that triggered the modal
-        var button = event.relatedTarget
+        var button3 = event.relatedTarget
         // Extract info from data-bs-* attributes
-        var recipient = button.getAttribute('data-bs-whatever')
-        var inp = document.getElementById('recipient-id')
-        inp.value = recipient;
+        var recipient3 = button3.getAttribute('data-bs-whatever')
+        var inp3 = document.getElementById('recipient-id')
+        inp3.value = recipient3;
 
         // If necessary, you could initiate an AJAX request here
         // and then do the updating in a callback.
         //
         // Update the modal's content.
-        var modalTitle = exampleModal.querySelector('.modal-title')
-        var modalBodyInput = exampleModal.querySelector('.modal-body input')
+        var modalTitle3 = exampleModal3.querySelector('.modal-title')
+        var modalBodyInput3 = exampleModal3.querySelector('.modal-body input')
 
       
     })

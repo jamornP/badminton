@@ -25,12 +25,12 @@ $dateObj = new Dates;
 
 
 if(isset($_GET['del'])){
-    $p = "manage.php?c_id={$_GET['c_id']}&court={$_GET['court']}";
+    $p = "manage.php";
     echo "
         <script type='text/javascript'>
             let isExecuted = confirm('คุณแน่ใจว่าต้องการลบข้อมูลรายการนี้ ?');
             if (isExecuted == true) {
-                location.href='delmatch.php?delok=delok&b_id={$_GET['b_id']}&dm_id={$_GET['dm_id']}&ma_id={$_GET['ma_id']}&c_id={$_GET['c_id']}&court={$_GET['court']}';
+                location.href='delmatch.php?delok=delok&b_id={$_GET['b_id']}&dm_id={$_GET['dm_id']}&ma_id={$_GET['ma_id']}';
             } else {
                 location.href='{$p}';
             }
@@ -47,10 +47,10 @@ if($_GET['delok']=='delok'){
         if($ckData){
             $ckMatch = $matchObj->delMatch($_GET['ma_id']);
             if($ckMatch){
-                $p = "manage.php?c_id={$_GET['c_id']}&court={$_GET['court']}";
+                // $p = "manage.php?c_id={$_GET['c_id']}&court={$_GET['court']}";
                 echo "  
                     <script type='text/javascript'>
-                        setTimeout(function(){location.href='{$p}'} , 1);
+                        setTimeout(function(){location.href='manage.php'} , 1);
                     </script>
                 ";
             }
