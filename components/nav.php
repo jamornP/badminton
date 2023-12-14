@@ -29,7 +29,7 @@ if (isset($_SESSION['b_login']) and ($_SESSION['b_login'] == true)) {
         echo "
         <nav class='navbar navbar-dark bg-primary'>
             <div class='container-fluid'>
-                <span class='navbar-brand mb-0 h1'>{$_SESSION['b_u_team']}</span>
+                <span class='navbar-brand mb-0 h1'>{$_SESSION['b_u_team']} ( token = {$_SESSION['b_line']} )</span>
             </div>
         </nav>
         <ul class='nav justify-content-center'>

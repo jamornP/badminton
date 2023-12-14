@@ -1,3 +1,4 @@
+<?php session_start();?>
 <?php require $_SERVER['DOCUMENT_ROOT'] . "/badminton/function/function.php"; ?>
 <?php require $_SERVER['DOCUMENT_ROOT'] . "/badminton/vendor/autoload.php"; ?>
 <?php
@@ -63,7 +64,7 @@ if(isset($_POST['adddatabase'])){
                     $dataL ="บิลวันที่ ".$da."\n";
                     $dataL .= $dataLine."\n".$p;
                     echo $dataL;
-                    SentLineBasic("OchohMJUJOsdFvvZJKBUuDaOrj5c6dkhvo6HticK3PA",$dataL);
+                    SentLineBasic($_SESSION['b_line'],$dataL);
                     echo "  
                         <script type='text/javascript'>
                             setTimeout(function(){location.href='/badminton/pages/show.php?date={$data['bi_date']}&u_id={$data['u_id']}'} , 1);
@@ -114,11 +115,11 @@ if(isset($_POST['adddatabase'])){
             }
             if($ck){
                 $da = datethai($data['bi_date']);
-                $p = "Link : http://161.246.23.21/badminton/pages/show1.php?bi_id={$bi_id}";
+                $p = "Link : http://sport.science.kmitl.ac.th/badminton/pages/show1.php?bi_id={$bi_id}";
                 $dataL ="บิลวันที่ ".$da."\n";
                 $dataL .= $dataLine."\n".$p;
                 echo $dataL;
-                SentLineBasic("OchohMJUJOsdFvvZJKBUuDaOrj5c6dkhvo6HticK3PA",$dataL);
+                SentLineBasic($_SESSION['b_line'],$dataL);
                 echo "  
                     <script type='text/javascript'>
                         setTimeout(function(){location.href='/badminton/pages/show.php?date={$data['bi_date']}&u_id={$data['u_id']}'} , 1);

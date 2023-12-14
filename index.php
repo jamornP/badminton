@@ -95,6 +95,10 @@ $usersObj = new Users;
                                 <label for="u_team" class="form-label">ชื่อก้วน</label>
                                 <input type="text" class="form-control" id="u_team" name="u_team" required>
                             </div>
+                            <div class="mb-2">
+                                <label for="line" class="form-label">line token  ไม่มีให้ว่างไว้ครับ <br>(OchohMJUJOsdFvvZJKBUuDaOrj5c6dkhvo6HticK)</label>
+                                <input type="text" class="form-control" id="line" name="line" required >
+                            </div>
 
                         </div>
                         <div class="modal-footer">

@@ -18,13 +18,15 @@ class Users extends DbBadminton
             u_password,
             u_name,
             u_team,
-            u_tel
+            u_tel,
+            line
             ) VALUES (
             :u_username,
             :u_password,
             :u_name,
             :u_team,
-            :u_tel
+            :u_tel,
+            :line
             )    
         ";
         $stmt = $this->pdo->prepare($sql);
@@ -52,6 +54,7 @@ class Users extends DbBadminton
         $_SESSION['b_u_tel'] = $userDB['u_tel'];
         $_SESSION['b_u_id'] = $userDB['u_id'];
         $_SESSION['b_u_tel'] = $userDB['u_tel'];
+        $_SESSION['b_line'] = $userDB['line'];
         $_SESSION['b_login'] = true;   
         if($user['u_username']=='admin'){
             $_SESSION['admin']=true;
