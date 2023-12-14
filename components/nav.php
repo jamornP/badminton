@@ -26,10 +26,15 @@ $dateObj = new Dates;
 
 if (isset($_SESSION['b_login']) and ($_SESSION['b_login'] == true)) {
     if (isset($_SESSION['date']) AND $_SESSION['date']!="") {
+        if($_SESSION['b_line']!=""){
+            $token = "Yse";
+        }else{
+            $token = "No";
+        }
         echo "
         <nav class='navbar navbar-dark bg-primary'>
             <div class='container-fluid'>
-                <span class='navbar-brand mb-0 h1'>{$_SESSION['b_u_team']} ( token = {$_SESSION['b_line']} )</span>
+                <span class='navbar-brand mb-0 h1'>{$_SESSION['b_u_team']} ( token = {$token} )</span>
             </div>
         </nav>
         <ul class='nav justify-content-center'>
