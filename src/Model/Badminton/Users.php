@@ -48,6 +48,7 @@ class Users extends DbBadminton
     $data = $stmt->fetchAll();
     $userDB = $data[0];
     if(password_verify($user['u_password'],$userDB['u_password'])) {
+        ini_set('session.gc_maxlifetime', 86400);
         session_start();
         $_SESSION['b_u_name'] = $userDB['u_name'];
         $_SESSION['b_u_team'] = $userDB['u_team'];

@@ -67,5 +67,15 @@ class Member extends DbBadminton
     $data = $stmt->fetchAll();
     return $data;
   }
+  public function countMemberInDay($m_id){
+    $sql ="
+      SELECT * 
+      FROM `tb_data_match` 
+      WHERE `m_id`={$m_id}
+    ";
+    $stmt = $this->pdo->query($sql);
+    $data = $stmt->fetchAll();
+    return count($data);
+  }
 }
 ?>

@@ -108,7 +108,7 @@ class Matchs extends DbBadminton
   public function getMatchDataById($dm_id)
   {
     $sql ="
-        SELECT dm.*, m.m_name
+        SELECT dm.*, m.m_name,m.m_id
         FROM tb_data_match as dm
         LEFT JOIN tb_member as m ON dm.m_id = m.m_id
         WHERE dm.dm_id = '{$dm_id}'

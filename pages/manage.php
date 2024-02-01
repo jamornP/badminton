@@ -1,4 +1,6 @@
-<?php session_start();?>
+<?php 
+ini_set('session.gc_maxlifetime', 86400);
+session_start();?>
 <!DOCTYPE html>
 <html>
 
@@ -77,6 +79,20 @@
             }
 
         }
+        if(isset($_POST['addMember'])){
+            unset($_POST['addMember']);
+            $_POST['m_date']=$_SESSION['date'];
+            $_POST['u_id']=$_SESSION['b_u_id'];
+            print_r($_POST);
+            $ck = $memberObj->addMember($_POST);
+            if ($ck) {
+                echo "  
+                    <script type='text/javascript'>
+                        setTimeout(function(){location.href='/badminton/pages/manage.php'} , 1);
+                    </script>
+                ";
+            }
+        }
     ?>
     <div class="container mt-5">
         <div class="alert alert-success" role="alert">
@@ -117,8 +133,9 @@
                                             <?php
                                                             $members = $memberObj->getMemberByDateUser($_SESSION['date'],$_SESSION['b_u_id']);
                                                             foreach($members as $m){
+                                                                $memberMa = $memberObj->countMemberInDay($m['m_id']);
                                                                 echo "
-                                                                <option value='{$m['m_id']}'>{$m['m_name']}</option>
+                                                                <option value='{$m['m_id']}'>{$m['m_name']}({$memberMa})</option>
                                                                 ";
                                                             }
                                                         ?>
@@ -164,11 +181,70 @@
                     </div>
                 </form>
                 <hr>
-
+                <form action="" method="POST">
+                    <div class="d-flex mb-2">
+                        <div class="">
+                            <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="ชื่อผู้เล่นใหม่" name="m_name">
+                        </div>
+                        <button type="submit" class="btn btn-success mx-2 text-white" name="addMember">เพิ่ม</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <br>
+        <div class="card mt-2">
+            <div class="card-body">
+            <table class="table fs-12">
+                    <thead>
+                        <tr class='text-center'>
+                            <th scope="col">เกมส์</th>
+                            <th class="text-center">ทีม 1</th>
+                            <th scope="col">VS</th>
+                            <th scope="col">ทีม 2</th>
+                            <!-- <th scope="col">ลูกแบดที่</th> -->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php 
+                            $matchs2 = $matchObj->getCourtMatch($_SESSION['date'],$_SESSION['b_u_id']);
+                            if(count($matchs2)>0){  
+                                // print_r($matchs2);
+                                $i = 0;
+                                foreach($matchs2 as $match2){
+                                   
+                                    $i++;
+                                    $dataMembers2 = $matchObj->getMatchDataById($match2['dm_id']);
+                                    $dataBad2 = $matchObj->getBadById($match2['b_id']);
+                                    $McountMath[0] = $memberObj->countMemberInDay($dataMembers2[0]['m_id']);
+                                    $McountMath[1] = $memberObj->countMemberInDay($dataMembers2[1]['m_id']);
+                                    $McountMath[2] = $memberObj->countMemberInDay($dataMembers2[2]['m_id']);
+                                    $McountMath[3] = $memberObj->countMemberInDay($dataMembers2[3]['m_id']);
+                                    // echo "<pre>";
+                                    // print_r($dataMembers2);
+                                    // echo "<br>";
+                                    // foreach($dataMembers2 as $m){
+                                    //     print_r($m);
+                                    // print_r($dataBad2);
+                                        echo "
+                                            <tr class='text-center'>
+                                                <td>{$i}</td>
+                                                <td>{$dataMembers2[0]['m_name']}({$McountMath[0]}) + {$dataMembers2[1]['m_name']}({$McountMath[1]})</td>
+                                                <td>VS</td>
+                                                <td>{$dataMembers2[2]['m_name']}({$McountMath[2]}) + {$dataMembers2[3]['m_name']}({$McountMath[3]})</td>
+                                                
+                                            </tr>
+                                        ";
+                                    // }<td>{$dataBad2[0]['b_name']}</td>
+                                }     
+                            }      
+                        ?>
+                    </tbody>
+                </table>
             </div>
         </div>
         <br>
         <?php 
+         
             $matchs = $matchObj->getCourtMatch($_SESSION['date'],$_SESSION['b_u_id']);
             if(count($matchs)>0){                                    
         ?>

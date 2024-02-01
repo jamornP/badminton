@@ -1,4 +1,6 @@
-<?php session_start(); ?>
+<?php 
+ini_set('session.gc_maxlifetime', 86400);
+session_start(); ?>
 <?php require $_SERVER['DOCUMENT_ROOT'] . "/badminton/function/function.php"; ?>
 <?php require $_SERVER['DOCUMENT_ROOT'] . "/badminton/vendor/autoload.php"; ?>
 <?php
@@ -68,6 +70,9 @@ $dateObj = new Dates;
                      <P>ค่าสนาม {$bill['bi_court']} บาท เล่นไป {$bill['bi_game']} เกมส์</P>
                      <P>ค่าลูกละ {$bill['bad_one']} บาท ใช้ไป {$bill['bad_count']} ลูก เป็นเงิน {$bill['bad_sum']} บาท</P>
                      ";
+                     echo "
+                     <a href='show_member.php?bi_date={$bill['bi_date']}' class='btn btn-success'>แสดงผู้เล่นแต่ละเกมส์</a>
+                     ";
                 ?>
                 <table class="table">
                     <thead>
@@ -88,19 +93,22 @@ $dateObj = new Dates;
                         $sum_s = 0;
                         foreach($data as $b){
                             $i++;
-                            $sum_c += $b['court_cal'];
+                            $sum_c += ceil($b['court_cal']);
                             $sum_b += $b['bad_cal'];
-                            $sum_s += $b['bi_sum'];
+                            $sum_s += ceil($b['bi_sum']);
+                            $ccc = ceil($b['court_cal']);
+                            $sss = ceil($b['bi_sum']);
                             echo "
                                 <tr>
                                     <td>{$i}</td>
                                     <td>{$b['m_name']}</td>
-                                    <td>{$b['court_cal']}</td>
+                                    <td>{$ccc}</td>
                                     <td>{$b['bad_cal']}({$b['bad_m']})</td>
-                                    <td>{$b['bi_sum']}</td>
+                                    <td>{$sss}</td>
                                 </tr>
                             ";
                         }
+                        // $sum_t = ceil($sum_s);
                         echo "
                             <tr>
                                 <th></th>
