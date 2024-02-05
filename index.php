@@ -97,8 +97,8 @@ $usersObj = new Users;
                                 <input type="text" class="form-control" id="u_team" name="u_team" required>
                             </div>
                             <div class="mb-2">
-                                <label for="line" class="form-label">line token  ไม่มีให้ว่างไว้ครับ <br>(OchohMJUJOsdFvvZJKBUuDaOrj5c6dkhvo6HticK)</label>
-                                <input type="text" class="form-control" id="line" name="line" required >
+                                <label for="line" class="form-label">line token  ไม่มีให้ว่างไว้ครับ <br>วิธีทำ( <a href='https://www.youtube.com/watch?v=16dhTsmvkzg'> https://www.youtube.com/watch?v=16dhTsmvkzg</a>)</label>
+                                <input type="text" class="form-control" id="line" name="line">
                             </div>
 
                         </div>
@@ -114,6 +114,7 @@ $usersObj = new Users;
     <?php
     if (isset($_POST['submit'])) {
         unset($_POST['submit']);
+        
         // print_r($_POST);
         $ck = $usersObj->checkUsers($_POST);
         // echo "<br>".$ck;
@@ -128,6 +129,9 @@ $usersObj = new Users;
     }
     if (isset($_POST['register'])) {
         unset($_POST['register']);
+        if($_POST['line']==""){
+            $_POST['line']="NEBJNOEsOZKaHi0CtH5DxutkPV9HNGinPgxZTEsrY1W";
+        }
         // print_r($_POST);
         $ck = $usersObj->addUsers($_POST);
         // $ck = true;

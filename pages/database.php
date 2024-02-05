@@ -61,15 +61,15 @@ if(isset($_POST['adddatabase'])){
                     $ck = $matchObj->addDataBill($data_bi);
                 }
                 if($ck){
-                    $da = datethai($data['bi_date']);
-                    $p = "Link : http://sport.science.kmitl.ac.th/badminton/pages/show1.php?bi_id={$dataB['bi_id']}";
-                    $dataL ="บิลวันที่ ".$da."\n";
-                    $dataL .= $dataLine."\n".$p;
-                    echo $dataL;
-                    SentLineBasic($_SESSION['b_line'],$dataL);
+                //     $da = datethai($data['bi_date']);
+                //     $p = "Link : http://sport.science.kmitl.ac.th/badminton/pages/show1.php?bi_id={$dataB['bi_id']}";
+                //     $dataL ="บิลวันที่ ".$da."\n";
+                //     $dataL .= $dataLine."\n".$p;
+                //     echo $dataL;
+                //     SentLineBasic($_SESSION['b_line'],$dataL);
                     echo "  
                         <script type='text/javascript'>
-                            setTimeout(function(){location.href='/badminton/pages/show.php?date={$data['bi_date']}&u_id={$data['u_id']}'} , 1);
+                            setTimeout(function(){location.href='/badminton/pages/cal.php'} , 1);
                         </script>
                     ";
                 }else{
@@ -116,15 +116,15 @@ if(isset($_POST['adddatabase'])){
                 echo "</pre>";
             }
             if($ck){
-                $da = datethai($data['bi_date']);
-                $p = "Link : http://sport.science.kmitl.ac.th/badminton/pages/show1.php?bi_id={$bi_id}";
-                $dataL ="บิลวันที่ ".$da."\n";
-                $dataL .= $dataLine."\n".$p;
-                echo $dataL;
-                SentLineBasic($_SESSION['b_line'],$dataL);
+            //     $da = datethai($data['bi_date']);
+            //     $p = "Link : http://sport.science.kmitl.ac.th/badminton/pages/show1.php?bi_id={$bi_id}";
+            //     $dataL ="บิลวันที่ ".$da."\n";
+            //     $dataL .= $dataLine."\n".$p;
+            //     echo $dataL;
+            //     SentLineBasic($_SESSION['b_line'],$dataL);
                 echo "  
                     <script type='text/javascript'>
-                        setTimeout(function(){location.href='/badminton/pages/show.php?date={$data['bi_date']}&u_id={$data['u_id']}'} , 1);
+                        setTimeout(function(){location.href='/badminton/pages/cal.php'} , 1);
                     </script>
                 ";
             }

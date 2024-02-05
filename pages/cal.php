@@ -114,13 +114,15 @@ session_start();?>
                 </form>
             </div>
         </div>
+       
+        
         <?php
             if(isset($_POST['calulate'])){
                 // print_r($_POST);
 
                 ?>
                     <div class="card mt-5">
-                        <h5 class="card-header">คำนวนค่าใช้จ่าย วันที่ <?php echo datethai($_SESSION['date']);?></h5>
+                        <h5 class="card-header">คำนวนค่าใช้จ่ายใหม่ วันที่ <?php echo datethai($_SESSION['date']);?></h5>
                         <div class="card-body">
                             <?php
                             $sum = $_POST['c_bad']*$_POST['n_bad'];
@@ -450,7 +452,7 @@ session_start();?>
                                 <?php
                                 if($_POST['cal']==4){
                                     echo "
-                                        <button type='submit' class='btn btn-danger text-white' name='adddatabase'>บันทึก และ ส่ง line</button>
+                                        <button type='submit' class='btn btn-danger text-white' name='adddatabase'>บันทึก</button>
                                     ";
                                 }
                                 ?>
@@ -462,7 +464,78 @@ session_start();?>
                 <?php
             }
         ?>
+        <?php
+            $ckCountBill = $matchObj->getBillByDate("count",$_SESSION['date'],$_SESSION['b_u_id']);
+            $dataLine = "";
+            if($ckCountBill > 0){
+                $dataLine = "บิล ".datethai($_SESSION['date'])."\n";
+                $CountBill = $matchObj->getBillByDate("data",$_SESSION['date'],$_SESSION['b_u_id']);
+                ?>
+                <div class="card mt-5">
+                    <h5 class="card-header">บิลเก่า วันที่ <?php echo datethai($_SESSION['date']);?></h5>
+                    <div class="card-body">
+                        <?php
+                            // $sum = $_POST['c_bad']*$_POST['n_bad'];
+                            echo "
+                            <P>ค่าสนาม {$CountBill['bi_court']} บาท เล่นไป {$CountBill['bi_game']} เกมส์</P>
+                            <P>ค่าลูกละ {$CountBill['bad_one']} บาท ใช้ไป {$CountBill['bad_count']} ลูก เป็นเงิน {$CountBill['bad_sum']} บาท</P>
+                            ";
+                            
+                        ?>
+                        <hr>
+                        
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">ชื่อ</th>
+                                    <th scope="col" class='text-end'>สนาม</th>
+                                    <th scope="col" class='text-end'>ลูก</th>
+                                    <th scope="col" class='text-end'>รวม</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                    
+                                    $dataBills = $matchObj->getDataBillById($CountBill['bi_id']);
+                                    $ib = 0;
+                                    foreach($dataBills as $bill){
+                                        $ib++;
+                                        $ccc = ceil($bill['court_cal']);
+                                        $sss = ceil($bill['bi_sum']);
+                                        $dataLine .= $ib.". ".$bill['m_name']." = ".$sss." บาท"."\n";
+                                        echo "
+                                            <tr>
+                                                <td>{$ib}</td>
+                                                <td>{$bill['m_name']}</td>
+                                                <td>{$ccc}</td>
+                                                <td>{$bill['bad_cal']}({$bill['bad_m']})</td>
+                                                <td>{$sss}</td>
+                                            </tr>
+                                        ";
+
+                                    }
+                                ?>
+                            </tbody>
+                            <form action="line.php" method="POST">
+                                <input type="hidden" name="dataLine" value="<?php echo $dataLine;?>">
+                                <?php
+                                    if($_SESSION['b_line']!=""){
+                                        ?>
+                                        <button type='submit' class='btn btn-primary text-white' name='line'>ส่ง line</button>
+                                        <?php
+                                    }
+                                ?>
+                                
+                            </form>
+                        </table>
+                    </div>
+                </div>
+                <?php
+            }
+        ?>
         <br>
+
         <br>
         <br>
     </div>
