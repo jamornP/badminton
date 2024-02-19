@@ -49,12 +49,18 @@ session_start();?>
                             // print_r($member);
                             $i =0;
                             foreach($member as $c){
+                                $memberMa = $memberObj->countMemberInDay($c['m_id']);
+                                if($memberMa >0){
+                                    $de =$memberMa;
+                                }else{
+                                    $de ="<a href='/badminton/pages/del.php?del=del&m_id={$c['m_id']}'>ลบ</a>";
+                                }
                                 $i++;
                                 echo "
                                     <tr>
                                         <th scope='row'>{$i}</th>
                                         <td>{$c['m_name']}</td>
-                                        <td><a href='/badminton/pages/del.php?del=del&m_id={$c['m_id']}'>ลบ</a></td>
+                                        <td>{$de}</td>
                                     </tr>
                                 ";
                             }
