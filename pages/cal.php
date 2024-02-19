@@ -508,9 +508,9 @@ session_start();?>
                                             <tr>
                                                 <td>{$ib}</td>
                                                 <td>{$bill['m_name']}</td>
-                                                <td>{$ccc}</td>
-                                                <td>{$bill['bad_cal']}({$bill['bad_m']})</td>
-                                                <td>{$sss}</td>
+                                                <td class='text-end'>{$ccc}</td>
+                                                <td class='text-end'>{$bill['bad_cal']}({$bill['bad_m']})</td>
+                                                <td class='text-end'>{$sss}</td>
                                             </tr>
                                         ";
 
