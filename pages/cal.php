@@ -492,37 +492,62 @@ session_start();?>
                                     <th scope="col" class='text-end'>สนาม</th>
                                     <th scope="col" class='text-end'>ลูก</th>
                                     <th scope="col" class='text-end'>รวม</th>
+                                    <th scope="col" class='text-center fs-10'>ขุนทอง</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php
-                                    
-                                    $dataBills = $matchObj->getDataBillById($CountBill['bi_id']);
-                                    $ib = 0;
-                                    foreach($dataBills as $bill){
-                                        $ib++;
-                                        $ccc = ceil($bill['court_cal']);
-                                        $sss = ceil($bill['bi_sum']);
-                                        $dataLine .= $ib.". ".$bill['m_name']." = ".$sss." บาท"."\n";
-                                        echo "
-                                            <tr>
-                                                <td>{$ib}</td>
-                                                <td>{$bill['m_name']}</td>
-                                                <td class='text-end'>{$ccc}</td>
-                                                <td class='text-end'>{$bill['bad_cal']}({$bill['bad_m']})</td>
-                                                <td class='text-end'>{$sss}</td>
-                                            </tr>
-                                        ";
+                                <div class="position-relative">
+                                    <form action="kuntong.php" method="POST">
+                                    <?php
+                                        
+                                        $dataBills = $matchObj->getDataBillById($CountBill['bi_id']);
+                                        $ib = 0;
+                                        foreach($dataBills as $bill){
+                                            $ib++;
+                                            $ccc = ceil($bill['court_cal']);
+                                            $sss = ceil($bill['bi_sum']);
+                                            $dataLine .= $ib.". ".$bill['m_name']." = ".$sss." บาท"."\n";
+                                            // ck bill kuntong
+                                            $ckKuntong = $matchObj->ckDataCkBillById($bill['db_id']);
+                                            if($ckKuntong){
+                                                if($ckKuntong['ck']==1){
+                                                    $ck = "checked";
+                                                }else{
+                                                    $ck = "";
+                                                }
+                                            }else{
+                                                $ck ="";
+                                            }
+                                            echo "
+                                                <tr>
+                                                    <td>{$ib}</td>
+                                                    <td>{$bill['m_name']}</td>
+                                                    <td class='text-end'>{$ccc}</td>
+                                                    <td class='text-end'>{$bill['bad_cal']}({$bill['bad_m']})</td>
+                                                    <td class='text-end'>{$sss}</td>
+                                                    <td class='text-center'>
+                                                        <div >
+                                                            <input class='form-check-input' type='checkbox' name='ck[]' value='{$bill['db_id']}' {$ck}>
+                                                            <input type='hidden' name='db_id[]' value='{$bill['db_id']}'>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            ";
 
-                                    }
-                                ?>
+                                        }
+                                    ?>
+                                    <div class="position-absolute button-0 end-0 me-2">
+                                        <button type='submit' class='btn btn-success text-white shadow mb-2 rounded' name='kuntong'>save ขุนทอง</button>
+                                    </div>
+                                    </form>
+                                </div>
                             </tbody>
                             <form action="line.php" method="POST">
                                 <input type="hidden" name="dataLine" value="<?php echo $dataLine;?>">
                                 <?php
                                     if($_SESSION['b_line']!=""){
                                         ?>
-                                        <button type='submit' class='btn btn-primary text-white' name='line'>ส่ง line</button>
+                                        <button type='submit' class='btn btn-primary text-white shadow mb-2 rounded' name='line'>ส่ง line</button>
                                         <?php
                                     }
                                 ?>

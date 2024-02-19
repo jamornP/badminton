@@ -352,5 +352,30 @@ class Matchs extends DbBadminton
       return false;
     }
   }
+  public function updateDataBillById($data){
+    $sql = "
+      UPDATE tb_data_bill SET
+        ck = :ck
+      WHERE  
+        db_id = :db_id
+    ";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute($data);
+    return true;
+  }
+  public function ckDataCkBillById($db_id){
+    $sql = "
+      SELECT *
+      FROM tb_data_bill
+      WHERE db_id = {$db_id}
+    ";
+    $stmt = $this->pdo->query($sql);
+    $data = $stmt->fetchAll();
+    if(count($data)>0){
+      return $data[0];
+    }else{
+      return false;
+    }
+  }
 }
 ?>
