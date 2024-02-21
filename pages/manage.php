@@ -197,7 +197,7 @@ session_start();?>
             <table class="table fs-12">
                     <thead>
                         <tr class='text-center'>
-                            <th scope="col">เกมส์</th>
+                            <th scope="col">ลูก</th>
                             <th class="text-center">ทีม 1</th>
                             <th scope="col">VS</th>
                             <th scope="col">ทีม 2</th>
@@ -225,9 +225,30 @@ session_start();?>
                                     // foreach($dataMembers2 as $m){
                                     //     print_r($m);
                                     // print_r($dataBad2);
+                                    // เกิน 2  ลูก
+                                    $bb = 0;
+                                    $badCount="";
+                                    // echo "<pre>";
+                                    // print_r($dataBad2);
+                                    foreach($dataBad2 as $bad){
+
+                                        $bb++;
+                                        if($bb > 1 AND $bb <= count($dataBad2)){
+                                            $cc = ",";
+                                        }else{
+                                            $cc="";
+                                        }
+                                       
+                                        // echo $cc;
+                                        // echo $bad['b_name'];
+                                        $badCount .= $cc.$bad['b_name'];
+                                       
+                                        
+                                    }
+                                    
                                         echo "
                                             <tr class='text-center'>
-                                                <td>{$i}</td>
+                                                <td>{$badCount}</td>
                                                 <td>{$dataMembers2[0]['m_name']}({$McountMath[0]}) + {$dataMembers2[1]['m_name']}({$McountMath[1]})</td>
                                                 <td>VS</td>
                                                 <td>{$dataMembers2[2]['m_name']}({$McountMath[2]}) + {$dataMembers2[3]['m_name']}({$McountMath[3]})</td>
