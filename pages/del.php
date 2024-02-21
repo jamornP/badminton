@@ -1,6 +1,12 @@
 <?php require $_SERVER['DOCUMENT_ROOT'] . "/badminton/vendor/autoload.php"; ?>
 <?php
-ini_set('session.gc_maxlifetime', 86400);
+/* set the cache limiter to 'private' */
+session_cache_limiter('private');
+$cache_limiter = session_cache_limiter();
+
+/* set the cache expire to 30 minutes */
+session_cache_expire(360);
+$cache_expire = session_cache_expire();
 session_start();
 use App\Model\Badminton\Matchs;
 $matchObj = new Matchs;
