@@ -1,11 +1,5 @@
 <?php 
-/* set the cache limiter to 'private' */
-session_cache_limiter('private');
-$cache_limiter = session_cache_limiter();
 
-/* set the cache expire to 30 minutes */
-session_cache_expire(360);
-$cache_expire = session_cache_expire();
 session_start();?>
 <!DOCTYPE html>
 <html>
@@ -102,6 +96,7 @@ session_start();?>
     ?>
     <div class="container mt-5">
         <div class="alert alert-success" role="alert">
+            <?php print_r($_SESSION);?>
             <h4> วันที่ <?php echo datethai($_SESSION['date']); ?></h4>
         </div>
         <div class="card mt-2">
