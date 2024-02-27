@@ -96,7 +96,7 @@ session_start();?>
     ?>
     <div class="container mt-5">
         <div class="alert alert-success" role="alert">
-            <?php print_r($_SESSION);?>
+            <?php //print_r($_SESSION);?>
             <h4> วันที่ <?php echo datethai($_SESSION['date']); ?></h4>
         </div>
         <div class="card mt-2">
