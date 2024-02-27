@@ -48,13 +48,7 @@ class Users extends DbBadminton
     $data = $stmt->fetchAll();
     $userDB = $data[0];
     if(password_verify($user['u_password'],$userDB['u_password'])) {
-        /* set the cache limiter to 'private' */
-session_cache_limiter('private');
-$cache_limiter = session_cache_limiter();
-
-/* set the cache expire to 30 minutes */
-session_cache_expire(360);
-$cache_expire = session_cache_expire();
+        
         session_start();
         $_SESSION['b_u_name'] = $userDB['u_name'];
         $_SESSION['b_u_team'] = $userDB['u_team'];

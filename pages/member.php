@@ -1,11 +1,5 @@
 <?php 
-/* set the cache limiter to 'private' */
-session_cache_limiter('private');
-$cache_limiter = session_cache_limiter();
 
-/* set the cache expire to 30 minutes */
-session_cache_expire(360);
-$cache_expire = session_cache_expire();
 session_start();?>
 <!DOCTYPE html>
 <html>
@@ -41,6 +35,15 @@ session_start();?>
         <div class="card">
             <h5 class="card-header">2.ผู้เล่น</h5>
             <div class="card-body">
+            <form action="" method="POST">
+                    <div class="d-flex mb-2">
+                        <div class="">
+                            <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="ชื่อ" name="m_name" autofocus>
+                        </div>
+                        <button type="submit" class="btn btn-success mx-2 text-white" name="add">เพิ่ม</button>
+                    </div>
+                </form>
+                <hr>
                 <table class="table">
                     <thead>
                         <tr>
@@ -76,14 +79,7 @@ session_start();?>
                     </tbody>
                 </table>
                 <hr>
-                <form action="" method="POST">
-                    <div class="d-flex mb-2">
-                        <div class="">
-                            <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="ชื่อ" name="m_name" autofocus>
-                        </div>
-                        <button type="submit" class="btn btn-success mx-2 text-white" name="add">เพิ่ม</button>
-                    </div>
-                </form>
+                
                 <!-- <h5 class="card-title">วันที่</h5>
                 <div class="">
                     <input type="text" id="datepicker" class="form-control" placeholder="yyyy-mm-dd" name="dateS" autocomplete="off">
