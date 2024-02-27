@@ -56,7 +56,7 @@ session_start();?>
                 }
                 if(isset($_POST['b_name'])){
                     foreach($_POST['b_name'] as $key => $b){
-                        // if($_POST['b_name'][$key]!="-"){
+                        if($_POST['b_name'][$key]!="-"){
                             $num = $matchObj->countBad($dataA['b_id']);
                             $dataB['b_id']=$dataA['b_id'];
                             $dataB['b_num']=$num;
@@ -64,7 +64,7 @@ session_start();?>
                             // echo "<br>";
                             // print_r($dataB);
                             $ckB = $matchObj->addBad($dataB);
-                        // }
+                        }
                     }
 
                 }
@@ -283,14 +283,14 @@ session_start();?>
                     </thead>
                     <tbody>
                         <?php
-                        $mmnum =0;
+                        
                         foreach($matchs as $match){
-                            $mmnum++;
+                           
                             $dataMembers = $matchObj->getMatchDataById($match['dm_id']);
                             $dataBad = $matchObj->getBadById($match['b_id']);
                             echo "
                                 <tr>
-                                    <th scope='row'>{$mmnum}</th>
+                                    <th scope='row'>{$match['ma_num']}</th>
                                     <td>";
                                     $i=0;
                                     foreach($dataMembers as $dm){
