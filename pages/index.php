@@ -47,7 +47,9 @@ session_start();?>
 
     ?>
     <div class="container mt-5">
+        
         <div class="card">
+        <?php print_r($_SESSION);?>
             <h5 class="card-header">ขั้นตอนที่ 1</h5>
             <div class="card-body">
                 <form action="" method="POST">
