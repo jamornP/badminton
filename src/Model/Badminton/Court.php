@@ -66,6 +66,5 @@ class Court extends DbBadminton
     $data = $stmt->fetchAll();
     return $data[0];
   }
-  
 }
 ?>
