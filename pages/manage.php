@@ -25,57 +25,77 @@ session_start();?>
     <?php require $_SERVER['DOCUMENT_ROOT'] . "/badminton/components/botton.php"; ?>
     <?php
         if(isset($_POST['add'])){
-            unset($_POST['add']);
-            $dataA['ma_date']=$_POST['ma_date']; 
-            $dataA['ma_num']=$_POST['ma_num']; 
-            $dataA['u_id']=$_POST['u_id']; 
-            $dataA['dm_id'] = uniqid();
-            $dataA['b_id'] = uniqid();
-            
-            // print_r($_POST);
-            $ckA = $matchObj->addMatch($dataA);
-            if($ckA){
-                if(isset($_POST['member'])){
-                    foreach($_POST['member'] as $key => $mem){
-                        $num = $matchObj->countDM($dataA['dm_id']);
-                        $dataM['dm_id']=$dataA['dm_id'];
-                        $dataM['dm_num']=$num;
-                        $dataM['m_id']=$_POST['member'][$key];
-                        $dataM['dm_date']=$_SESSION['date'];
-                        // echo "<br>";
-                        // print_r($dataM);
-                        if($_POST['member'][$key]=="0"){
-                            // echo $_POST['member'][$key];
-                        }else{
-                            // echo $num.$_POST['member'][$key];
-                            $ckDA = $matchObj->addMatchData($dataM);
+            $ccc = 0;
+            if(isset($_POST['member'])){
+                foreach($_POST['member'] as $key => $mem){
+                    if($_POST['member'][$key]=="0"){
+                        
+                    }else{
+                        $ccc++;
+                    }
+                }
+            }
+            if($ccc == 4){
+                unset($_POST['add']);
+                $dataA['ma_date']=$_POST['ma_date']; 
+                $dataA['ma_num']=$_POST['ma_num']; 
+                $dataA['u_id']=$_POST['u_id']; 
+                $dataA['dm_id'] = uniqid();
+                $dataA['b_id'] = uniqid();
+                
+                // print_r($_POST);
+                $ckA = $matchObj->addMatch($dataA);
+                if($ckA){
+                    if(isset($_POST['member'])){
+                        foreach($_POST['member'] as $key => $mem){
+                            $num = $matchObj->countDM($dataA['dm_id']);
+                            $dataM['dm_id']=$dataA['dm_id'];
+                            $dataM['dm_num']=$num;
+                            $dataM['m_id']=$_POST['member'][$key];
+                            $dataM['dm_date']=$_SESSION['date'];
+                            // echo "<br>";
+                            // print_r($dataM);
+                            if($_POST['member'][$key]=="0"){
+                                // $ckDA = $matchObj->addMatchData($dataM);
+                                // echo $_POST['member'][$key];
+                            }else{
+                                // echo $num.$_POST['member'][$key];
+                                $ckDA = $matchObj->addMatchData($dataM);
+                            }
+                            
                         }
+
+                    }
+                    if(isset($_POST['b_name'])){
+                        foreach($_POST['b_name'] as $key => $b){
+                            // if($_POST['b_name'][$key]!="-"){
+                                $num = $matchObj->countBad($dataA['b_id']);
+                                $dataB['b_id']=$dataA['b_id'];
+                                $dataB['b_num']=$num;
+                                $dataB['b_name']=$_POST['b_name'][$key];
+                                // echo "<br>";
+                                // print_r($dataB);
+                                $ckB = $matchObj->addBad($dataB);
+                            // }
+                        }
+
+                    }
+                    if($ckA == true && $ckDA == true){
+                        echo "  
+                            <script type='text/javascript'>
+                                setTimeout(function(){location.href='/badminton/pages/manage.php'} , 1);
+                            </script>
+                        ";
                         
                     }
-
                 }
-                if(isset($_POST['b_name'])){
-                    foreach($_POST['b_name'] as $key => $b){
-                        // if($_POST['b_name'][$key]!="-"){
-                            $num = $matchObj->countBad($dataA['b_id']);
-                            $dataB['b_id']=$dataA['b_id'];
-                            $dataB['b_num']=$num;
-                            $dataB['b_name']=$_POST['b_name'][$key];
-                            // echo "<br>";
-                            // print_r($dataB);
-                            $ckB = $matchObj->addBad($dataB);
-                        // }
-                    }
-
-                }
-                if($ckA == true && $ckDA == true){
-                    echo "  
-                        <script type='text/javascript'>
-                            setTimeout(function(){location.href='/badminton/pages/manage.php'} , 1);
-                        </script>
-                    ";
-                    
-                }
+            }else{
+                echo "  
+                    <script type='text/javascript'>
+                    alert('กรอกข้อมูลไม่ครบ 4 คน');
+                    </script>
+                ";
+                
             }
 
         }
