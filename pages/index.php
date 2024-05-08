@@ -67,6 +67,7 @@ session_start();?>
                             <th scope="col">#</th>
                             <th scope="col">วันที่</th>
                             <th scope="col">ดำเนินการ</th>
+                            <th scope="col"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -82,6 +83,7 @@ session_start();?>
                                         <th scope='row'>{$i}</th>
                                         <td>{$dateshow}</td>
                                         <td><a href='/badminton/pages/member.php?date={$d['d_date']}'>ดำเนินการต่อ</a></td>
+                                        <td><a href='del_all.php?del=0&date={$d['d_date']}'>ลบ</a></td>
                                     </tr>
                                 ";
                             }
